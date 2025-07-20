@@ -7,6 +7,13 @@ export default defineNuxtConfig({
       API_URL: process.env.NUXT_API_URL,
     },
   },
+  modules: ["@pinia/nuxt"],
+  css: [
+    "~/assets/scss/theme.scss",
+    "~/assets/scss/animates.scss",
+    "~/assets/scss/button.scss",
+    "~/assets/scss/loader.scss",
+  ],
   app: {
     head: {
       link: [
