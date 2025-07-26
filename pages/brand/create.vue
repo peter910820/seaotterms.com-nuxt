@@ -8,7 +8,7 @@ import { initMaterialDatepicker, initMaterialFormSelect } from "~/composables/us
 import { messageStorage } from "~/utils/messageHandler";
 
 import type { BrandCreateRequest } from "~/types/request";
-import type { BrandResponse } from "~/types/response";
+import type { CommonResponse } from "~/types/response";
 
 const router = useRouter();
 
@@ -44,7 +44,7 @@ const handleSubmit = async () => {
   }
 
   try {
-    const response = await $fetch<BrandResponse>("brand", {
+    const response = await $fetch<CommonResponse>("brand", {
       baseURL: import.meta.env.VITE_API_URL,
       method: "POST",
       body: request.value,
