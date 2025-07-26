@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 import { messageStorage } from "~/utils/messageHandler";
@@ -12,17 +11,17 @@ const { data, error } = await useFetch<CommonResponse<BrandQuery[]>, CommonRespo
   baseURL: import.meta.env.VITE_API_URL,
 });
 
-onMounted(() => {
-  if (error.value) {
-    if (error.value.statusCode === 500) {
-      messageStorage(error.value.statusCode, error.value.errMsg);
-      router.push("/message");
-    } else {
-      messageStorage();
-      router.push("/message");
-    }
+const brands = computed(() => (data.value?.data ?? []) as BrandQuery[]);
+
+if (import.meta.client && error.value) {
+  if (error.value.statusCode === 500) {
+    messageStorage(error.value.statusCode, error.value.errMsg);
+    router.push("/message");
+  } else {
+    messageStorage();
+    router.push("/message");
   }
-});
+}
 </script>
 
 <template>
@@ -34,18 +33,14 @@ onMounted(() => {
       <div class="col s3">狀態</div>
       <div class="col s5">官網URL</div>
     </div>
-    <div
-      class="col s12 sub-block floatup-div wow animate__slideInUp"
-      v-for="brand in (data ?? []) as BrandQuery[]"
-      :key="brand.id"
-    >
+    <div class="col s12 sub-block floatup-div wow animate__slideInUp" v-for="brand in brands" :key="brand.id">
       <div class="col s3">
         {{ brand.name }}
       </div>
       <div class="col s1">
         {{ brand.workAmount }}
       </div>
-      <div v-if="brand.dissolution" class="col s3"><font color="red">解散</font></div>
+      <div v-if="brand.dissolution" class="col s3" style="color: red">解散</div>
       <div v-else="brand.dissolution" class="col s3">正常</div>
       <div class="col s5">
         {{ brand.officialUrl }}
