@@ -50,8 +50,7 @@ const handleSubmit = async () => {
       method: "POST",
       body: request.value,
     });
-
-    messageStorage(response.statusCode, response.InfoMsg);
+    messageStorage(response.statusCode, response.infoMsg);
     router.push("/message");
   } catch (error) {
     if (error instanceof FetchError) {

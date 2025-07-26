@@ -1,7 +1,7 @@
 export interface CommonResponse<T = null> {
   statusCode: number;
   errMsg: string;
-  InfoMsg: string;
+  infoMsg: string;
   data: T;
 }
 
