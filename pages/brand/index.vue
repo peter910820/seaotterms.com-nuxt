@@ -8,22 +8,21 @@ import type { CommonResponse, BrandQuery } from "~/types/response";
 
 const router = useRouter();
 
-const data = ref<BrandQuery[]>();
+const { data, error } = await useFetch<CommonResponse<BrandQuery[]>, CommonResponse>("brand", {
+  baseURL: import.meta.env.VITE_API_URL,
+});
 
-try {
-  const response = await $fetch<CommonResponse<BrandQuery[]>>("brand", {
-    baseURL: import.meta.env.VITE_API_URL,
-  });
-  data.value = response.data;
-} catch (error: any) {
-  if (error.response?.status === 500) {
-    messageStorage(error.response.status, error.response.data.msg);
-    router.push("/message");
-  } else {
-    messageStorage();
-    router.push("/message");
+onMounted(() => {
+  if (error.value) {
+    if (error.value.statusCode === 500) {
+      messageStorage(error.value.statusCode, error.value.errMsg);
+      router.push("/message");
+    } else {
+      messageStorage();
+      router.push("/message");
+    }
   }
-}
+});
 </script>
 
 <template>
@@ -35,7 +34,11 @@ try {
       <div class="col s3">狀態</div>
       <div class="col s5">官網URL</div>
     </div>
-    <div class="col s12 sub-block floatup-div wow animate__slideInUp" v-for="brand in data" :key="brand.id">
+    <div
+      class="col s12 sub-block floatup-div wow animate__slideInUp"
+      v-for="brand in (data ?? []) as BrandQuery[]"
+      :key="brand.id"
+    >
       <div class="col s3">
         {{ brand.name }}
       </div>

@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { onMounted } from "vue";
+import { FetchError } from "ofetch";
 
 import { initMaterialDatepicker, initMaterialFormSelect } from "~/composables/useMaterial";
 
@@ -52,13 +53,16 @@ const handleSubmit = async () => {
 
     messageStorage(response.statusCode, response.InfoMsg);
     router.push("/message");
-  } catch (error: any) {
-    if (error.response?.status === 401) {
-      alert("階段性登入已過期，請重新登入");
-      router.push("/login");
-    } else if (error.response?.status === 500) {
-      messageStorage(error.response.status, error.response.data.msg);
-      router.push("/message");
+  } catch (error) {
+    if (error instanceof FetchError) {
+      const fetchError = error as FetchError<CommonResponse>;
+      if (fetchError.status === 401) {
+        alert("階段性登入已過期，請重新登入");
+        router.push("/login");
+      } else {
+        messageStorage(fetchError.status, fetchError.data?.errMsg);
+        router.push("/message");
+      }
     } else {
       messageStorage();
       router.push("/message");
