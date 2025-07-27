@@ -5,6 +5,23 @@ export interface CommonResponse<T = null> {
   data: T;
 }
 
+export interface ArticleQuery {
+  id: number;
+  title: string;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+  tags: TagQuery[];
+}
+
+export interface TagQuery {
+  name: string;
+  iconName: string;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface BrandQuery {
   id: number;
   name: string;

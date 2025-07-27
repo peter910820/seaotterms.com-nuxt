@@ -1,55 +1,49 @@
 <script lang="ts" setup>
-const apiUrl = useRuntimeConfig().public.API_URL;
+import type { CommonResponse, ArticleQuery } from "~/types/response";
 
-const { data, error } = await useFetch<Response>(apiUrl + "/series", {
-  method: "GET",
-  lazy: false,
-  server: true,
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare const Typed: any;
+
+const router = useRouter();
+
+const { data, error } = await useFetch<CommonResponse<ArticleQuery[]>, CommonResponse>("article", {
+  baseURL: import.meta.env.VITE_API_URL,
 });
-// import { defineComponent, onMounted, ref } from "vue";
-// import { useRouter } from "vue-router";
-// import { useArticleStore } from "@/store/article";
-// import { storeToRefs } from "pinia";
-// // eslint-disable-next-line @typescript-eslint/no-explicit-any
-// declare const Typed: any;
 
-// export default defineComponent({
-//   setup() {
-//     const router = useRouter();
-//     const articleStore = useArticleStore();
-//     const { article } = storeToRefs(articleStore);
-//     const articleContent = ref(article.value);
+const articles = computed(() => (data.value?.data ?? []) as ArticleQuery[]);
 
-//     const link = (mod: string, target: string) => {
-//       if (mod === "article") {
-//         router.push(`/articles/${target}`);
-//       } else {
-//         router.push(`./tags/${target}`);
-//       }
-//     };
-//     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//     const tagClick = (tag: string, event: any) => {
-//       event.stopPropagation();
-//       link("tag", tag);
-//     };
+if (import.meta.client && error.value) {
+  if (error.value.statusCode === 500) {
+    messageStorage(error.value.statusCode, error.value.errMsg);
+    router.push("/message");
+  } else {
+    messageStorage();
+    router.push("/message");
+  }
+}
 
-//     onMounted(() => {
-//       // eslint-disable-next-line no-undef
-//       new Typed(".banner>div>div", {
-//         strings: ["正在嘗試進步，", "學很多怪技術跟做很多小東西。"],
-//         typeSpeed: 80,
-//         loop: true,
-//         showCursor: false,
-//       });
-//     });
+const link = (mod: string, target: string) => {
+  if (mod === "article") {
+    router.push(`/articles/${target}`);
+  } else {
+    router.push(`./tags/${target}`);
+  }
+};
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const tagClick = (tag: string, event: any) => {
+  event.stopPropagation();
+  link("tag", tag);
+};
 
-//     return {
-//       link,
-//       tagClick,
-//       articleContent,
-//     };
-//   },
-// });
+onMounted(() => {
+  // eslint-disable-next-line no-undef
+  new Typed(".banner>div>div", {
+    strings: ["一個Galgame玩家，", "不是正在玩Galgame就是在玩Galgame的路上。"],
+    typeSpeed: 80,
+    loop: true,
+    showCursor: false,
+  });
+});
 </script>
 
 <template>
@@ -58,11 +52,11 @@ const { data, error } = await useFetch<Response>(apiUrl + "/series", {
       <div><div></div></div>
     </div>
     <h1>首頁/文章</h1>
-    <!-- <div
+    <div
       class="col s12 sub-block articles floatup-div wow animate__slideInUp"
-      v-for="article in articleContent"
+      v-for="article in articles"
       :key="article.id"
-      @click="link('article', article.id)"
+      @click="link('article', article.id.toString())"
     >
       <div class="title">{{ article.title }}</div>
       <div class="username">
@@ -76,11 +70,11 @@ const { data, error } = await useFetch<Response>(apiUrl + "/series", {
         {{ article.updatedAt }}
       </div>
       <div class="tag">
-        <div class="button-tags" v-for="(tag, index) in article.tags" :key="index" @click="tagClick(tag.name, $event)">
+        <div class="button-tags" v-for="tag in article.tags" :key="tag.name" @click="tagClick(tag.name, $event)">
           {{ tag.name }}
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
