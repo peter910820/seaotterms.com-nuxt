@@ -46,7 +46,7 @@ const handleSubmit = async () => {
 
   try {
     const response = await $fetch<CommonResponse>("brands", {
-      baseURL: import.meta.env.VITE_API_INTERNAL_URL,
+      baseURL: import.meta.env.VITE_API_URL,
       method: "POST",
       body: request.value,
     });
