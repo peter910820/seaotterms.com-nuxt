@@ -7,7 +7,7 @@ import type { CommonResponse, BrandQuery } from "~/types/response";
 
 const router = useRouter();
 
-const { data, error } = await useFetch<CommonResponse<BrandQuery[]>, CommonResponse>("brand", {
+const { data, error } = await useFetch<CommonResponse<BrandQuery[]>, CommonResponse>("brands", {
   baseURL: import.meta.env.VITE_API_URL,
 });
 
@@ -98,7 +98,7 @@ if (import.meta.client && error.value) {
   width: 75vw;
   overflow-y: auto;
   overflow-x: hidden;
-  background: #f2ebea;
+  background: var(--color-background);
   border-radius: 10px;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);

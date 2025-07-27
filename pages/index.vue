@@ -6,7 +6,7 @@ declare const Typed: any;
 
 const router = useRouter();
 
-const { data, error } = await useFetch<CommonResponse<ArticleQuery[]>, CommonResponse>("article", {
+const { data, error } = await useFetch<CommonResponse<ArticleQuery[]>, CommonResponse>("articles", {
   baseURL: import.meta.env.VITE_API_URL,
 });
 
