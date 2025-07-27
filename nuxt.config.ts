@@ -16,6 +16,15 @@ export default defineNuxtConfig({
   ],
   app: {
     head: {
+      title: "SeaotterMSのblog",
+      meta: [
+        { name: "description", content: "放一些技術以及日常的東東" },
+        { property: "og:title", content: "SeaotterMSのblog" },
+        { property: "og:description", content: "放一些技術以及日常的東東" },
+        { property: "og:image", content: process.env.NUXT_PUBLIC_SITE_URL + "background.png" },
+        { property: "og:url", content: process.env.NUXT_PUBLIC_SITE_URL },
+        { property: "og:type", content: "website" },
+      ],
       link: [
         { rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" },
         { rel: "stylesheet", href: "https://fonts.googleapis.com/icon?family=Material+Icons" },
