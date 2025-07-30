@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineComponent, ref, computed } from "vue";
+import { computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 
 import MarkdownIt from "markdown-it";

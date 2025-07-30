@@ -18,7 +18,7 @@ const request = ref<SystemTodoCreateRequest>({
   status: 0,
   deadline: "",
   urgency: 0,
-  createdName: user.value.username,
+  createdName: "seaotterms",
 });
 
 const { data, error } = await useFetch<CommonResponse<TodoTopicQuery[]>, CommonResponse>("todo-topics/system", {

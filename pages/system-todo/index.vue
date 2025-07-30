@@ -5,7 +5,7 @@ import { FetchError } from "ofetch";
 import FilterBlock from "~/components/FilterBlock.vue";
 
 import { useTodoStore, useSystemTodoStore } from "~/stores/useTodoStore";
-import type { CommonResponse, SystemTodoQuery } from "~/types/response";
+import type { CommonResponse, TodoTopicQuery, SystemTodoQuery } from "~/types/response";
 
 declare global {
   interface Window {
@@ -18,7 +18,24 @@ const systemTodoStore = useSystemTodoStore();
 
 const modalVisible = ref(false);
 const { systemTodo, systemTodoSingle } = storeToRefs(systemTodoStore);
-const systemTodos = computed(() => systemTodo.value); // redundant
+
+const { data, error } = await useFetch<CommonResponse<SystemTodoQuery[]>, CommonResponse>("system-todos", {
+  baseURL: import.meta.env.VITE_API_URL,
+});
+
+systemTodoStore.set(data.value?.data as SystemTodoQuery[]);
+
+const systemTodos = computed(() => systemTodo.value);
+
+if (import.meta.client && error.value) {
+  if (error.value.statusCode === 500) {
+    messageStorage(error.value.statusCode, error.value.errMsg);
+    router.push("/message");
+  } else {
+    messageStorage();
+    router.push("/message");
+  }
+}
 
 systemTodoStore.$subscribe(() => {
   nextTick(() => {
@@ -82,7 +99,7 @@ const changeStatus = async (id: number, status: number) => {
       method: "PATCH",
       body: {
         status: status,
-        updatedName: userData.value.username,
+        updatedName: "seaotterms",
       },
     });
     let response = await $fetch<CommonResponse<SystemTodoQuery[]>>(`system-todos?id=${id}`, {
@@ -129,9 +146,8 @@ const deleteTodo = async (id: number) => {
   <div class="row main-block">
     <h1>
       系統更新待辦
-      <router-link v-if="userData && userData.management === true" to="/system-todo/create" class="button-simple">
-        點我新增
-      </router-link>
+      <!-- <router-link v-if="userData && userData.management === true" to="/system-todo/create" class="button-simple"></router-link> -->
+      <router-link to="/system-todo/create" class="button-simple"> 點我新增 </router-link>
     </h1>
     <FilterBlock />
     <div
@@ -190,8 +206,10 @@ const deleteTodo = async (id: number) => {
       <div v-else-if="systemTodoSingle.urgency === 2" class="col s12 left-align red-text">緊急</div>
       <div v-else class="col s12 left-align">?</div>
       <!-- todo-button -->
-      <h5 v-if="userData?.management" class="left-align">管理員操作介面</h5>
-      <div v-if="userData?.management" class="col s12 todo-button left-align">
+      <!-- <h5 v-if="userData?.management" class="left-align">管理員操作介面</h5>
+      <div v-if="userData?.management" class="col s12 todo-button left-align"> -->
+      <h5 class="left-align">管理員操作介面</h5>
+      <div class="col s12 todo-button left-align">
         <span
           :class="['button-status', systemTodoSingle.status == 0 ? 'background-n' : '']"
           @click="changeStatus(systemTodoSingle.id, 0)"
@@ -275,7 +293,7 @@ const deleteTodo = async (id: number) => {
   width: 75vw;
   overflow-y: auto;
   overflow-x: hidden;
-  background: var(--color-backgroun);
+  background: var(--color-background);
   border-radius: 10px;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
