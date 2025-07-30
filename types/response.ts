@@ -33,3 +33,10 @@ export interface BrandQuery {
   updatedAt: Date;
   updatedName: string;
 }
+
+export interface TodoTopicQuery {
+  topicName: string;
+  topicOwner: string;
+  updatedAt: Date;
+  updateName: string | null;
+}
