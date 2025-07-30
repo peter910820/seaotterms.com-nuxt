@@ -40,3 +40,30 @@ export interface TodoTopicQuery {
   updatedAt: Date;
   updateName: string | null;
 }
+
+export interface TodoQuery {
+  id: number;
+  owner: string;
+  topic: string;
+  title: string;
+  status: number;
+  deadline: Date | null;
+  createdAt: Date;
+  createName: string;
+  updatedAt: Date | null;
+  updateName: string | null;
+}
+
+export interface SystemTodoQuery {
+  id: number;
+  systemName: string;
+  title: string;
+  detail: string; // it may be an empty string
+  status: number;
+  deadline: Date | null;
+  urgency: number;
+  createdAt: Date;
+  createdName: string;
+  updatedAt: Date | null;
+  updatedName: string | null;
+}
