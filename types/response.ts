@@ -34,6 +34,21 @@ export interface BrandQuery {
   updatedName: string;
 }
 
+export interface GameQuery {
+  id: number;
+  name: string;
+  chineseName: string;
+  brandId: number;
+  allAges: boolean;
+  releaseDate: string; // Date
+  OpUrl: string;
+  gameDescription: string;
+  createdAt: Date;
+  createdName: string;
+  updatedAt: Date;
+  updatedName: string;
+}
+
 export interface TodoTopicQuery {
   topicName: string;
   topicOwner: string;
