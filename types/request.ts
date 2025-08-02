@@ -14,3 +14,8 @@ export interface SystemTodoCreateRequest {
   urgency: number;
   createdName: string;
 }
+
+export interface LoginRequest {
+  username: string;
+  password: string;
+}

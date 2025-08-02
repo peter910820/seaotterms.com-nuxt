@@ -2,6 +2,11 @@
 definePageMeta({
   ssr: false,
 });
+
+import { FetchError } from "ofetch";
+
+import type { LoginRequest } from "@/types/request";
+import type { CommonResponse, TodoTopicQuery } from "~/types/response";
 // import axios from "axios";
 // import { ref } from "vue";
 // import { useRouter } from "vue-router";
@@ -12,24 +17,38 @@ definePageMeta({
 
 // axios.defaults.withCredentials = true;
 
-// const router = useRouter();
+const router = useRouter();
 // const userStore = useUserStore();
-const form = ref({
+const request = ref<LoginRequest>({
   username: "",
   password: "",
 });
 const handleSubmit = async () => {
-  //   try {
-  //     const response = await axios.post(process.env.VUE_APP_API_URL + "api/login", form.value);
-  //     messageStorage(response.status, response.data.msg);
-  //     userStore.set(response?.data.userData);
-  //   } catch (error) {
-  //     const status = axios.isAxiosError(error) ? error.response?.status : undefined;
-  //     const msg = axios.isAxiosError(error) ? error.response?.data.msg : undefined;
-  //     messageStorage(status, msg);
-  //   } finally {
-  //     router.push("/message");
-  //   }
+  try {
+    const response = await $fetch<CommonResponse>("login", {
+      baseURL: import.meta.env.VITE_API_URL,
+      method: "POST",
+      body: request.value,
+      credentials: "include",
+    });
+    messageStorage(response.statusCode, response.infoMsg);
+    router.push("/message");
+    // userStore.set(response?.data.userData);
+  } catch (error) {
+    if (error instanceof FetchError) {
+      const fetchError = error as FetchError<CommonResponse>;
+      if (fetchError.status === 401) {
+        alert("階段性登入已過期，請重新登入");
+        router.push("/login");
+      } else {
+        messageStorage(fetchError.status, fetchError.data?.errMsg);
+        router.push("/message");
+      }
+    } else {
+      messageStorage();
+      router.push("/message");
+    }
+  }
 };
 </script>
 
@@ -40,13 +59,13 @@ const handleSubmit = async () => {
       <div class="row">
         <div class="input-field col s12">
           <i class="material-icons prefix">account_circle</i>
-          <input id="icon_prefix" v-model="form.username" type="text" class="validate" required />
+          <input id="icon_prefix" v-model="request.username" type="text" class="validate" required />
           <span class="helper-text" data-error="此欄位不能為空" data-success=""></span>
           <label for="icon_prefix">username</label>
         </div>
         <div class="input-field col s12">
           <i class="material-icons prefix">lock</i>
-          <input id="icon_lock" v-model="form.password" type="password" class="validate" required />
+          <input id="icon_lock" v-model="request.password" type="password" class="validate" required />
           <span class="helper-text" data-error="此欄位不能為空" data-success=""></span>
           <label for="icon_lock">password</label>
         </div>
