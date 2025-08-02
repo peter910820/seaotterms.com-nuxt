@@ -19,13 +19,13 @@ onMounted(() => {
   <!-- Todo Dropdown Structure -->
   <ul id="todo-dropdown" class="dropdown-content">
     <li>
-      <router-link to="/todolist">
+      <router-link to="/todolists">
         TodoList
         <i class="material-icons left">checklist</i>
       </router-link>
     </li>
     <li>
-      <router-link to="/todo-topic">
+      <router-link to="/todo-topics">
         建立Todo類別
         <i class="material-icons left">fact_check</i>
       </router-link>
@@ -55,7 +55,7 @@ onMounted(() => {
       </router-link>
     </li>
     <li>
-      <router-link to="/system-todo-topic/create">
+      <router-link to="/system-todo-topics/create">
         建立系統站台
         <i class="material-icons left">system_update_alt</i>
       </router-link>
@@ -81,7 +81,7 @@ onMounted(() => {
           </router-link>
         </li>
         <li>
-          <router-link to="/system-todo">
+          <router-link to="/system-todos">
             系統更新待辦
             <i class="material-icons left">pending_actions</i>
           </router-link>
@@ -131,19 +131,19 @@ onMounted(() => {
       <router-link to="/">首頁</router-link>
     </li>
     <li>
-      <router-link to="/system-todo">系統更新待辦</router-link>
+      <router-link to="/system-todos">系統更新待辦</router-link>
     </li>
     <li>
-      <router-link to="/galgamebrand">Galgame紀錄</router-link>
+      <router-link to="/galgamebrands">Galgame紀錄</router-link>
     </li>
     <li>
       <router-link to="/galgame/article-operation">Galgame文章作業</router-link>
     </li>
     <li>
-      <router-link to="/todolist">TodoList</router-link>
+      <router-link to="/todolists">TodoList</router-link>
     </li>
     <li>
-      <router-link to="/todo-topic">建立Todo類別</router-link>
+      <router-link to="/todo-topics">建立Todo類別</router-link>
     </li>
     <li>
       <router-link to="/create">建立文章</router-link>
