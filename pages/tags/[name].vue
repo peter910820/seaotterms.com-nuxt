@@ -10,6 +10,7 @@ const tagName = route.params.name as string;
 
 const { data, error } = await useFetch<CommonResponse<ArticleQuery[]>, CommonResponse>(`tags/${tagName}`, {
   baseURL: import.meta.env.VITE_API_URL,
+  credentials: "include",
 });
 
 const articles = computed(() => (data.value?.data ?? []) as ArticleQuery[]);

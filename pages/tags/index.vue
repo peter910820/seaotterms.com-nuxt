@@ -7,6 +7,7 @@ const router = useRouter();
 
 const { data, error } = await useFetch<CommonResponse<TagQuery[]>, CommonResponse>("tags", {
   baseURL: import.meta.env.VITE_API_URL,
+  credentials: "include",
 });
 
 const tags = computed(() => (data.value?.data ?? []) as TagQuery[]);

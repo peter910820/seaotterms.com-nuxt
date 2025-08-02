@@ -2,7 +2,7 @@
 import { ref, onMounted, defineComponent } from "vue";
 import { useRouter } from "vue-router";
 import { FetchError } from "ofetch";
-
+import { userInfoHandler } from "@/utils/userInfoHandler";
 import { initMaterialDatepicker, initMaterialFormSelect, initMaterialDropdown } from "@/composables/useMaterial";
 // pinia store
 import type { SystemTodoCreateRequest } from "~/types/request";
@@ -23,6 +23,7 @@ const request = ref<SystemTodoCreateRequest>({
 
 const { data, error } = await useFetch<CommonResponse<TodoTopicQuery[]>, CommonResponse>("todo-topics/system", {
   baseURL: import.meta.env.VITE_API_URL,
+  credentials: "include",
 });
 
 const todoTopics = computed(() => (data.value?.data ?? []) as TodoTopicQuery[]);
@@ -76,12 +77,15 @@ const handleSubmit = async () => {
       baseURL: import.meta.env.VITE_API_URL,
       method: "POST",
       body: request.value,
+      credentials: "include",
     });
+    userInfoHandler(response.userInfo);
     messageStorage(response.statusCode, response.infoMsg);
     router.push("/message");
   } catch (error) {
     if (error instanceof FetchError) {
       const fetchError = error as FetchError<CommonResponse>;
+      userInfoHandler(fetchError.data?.userInfo);
       if (fetchError.status === 401) {
         alert("階段性登入已過期，請重新登入");
         router.push("/login");

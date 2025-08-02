@@ -14,10 +14,14 @@ export const useUserStore = defineStore("user", () => {
     updated_at: new Date(),
     update_name: "",
     avatar: "",
+    dataVersion: 0,
   });
 
   const set = (data: UserType) => {
-    user.value = data;
+    if (data?.dataVersion >= user.value.dataVersion) {
+      user.value = data;
+      console.log("refresh user info");
+    }
   };
 
   const reset = () => {

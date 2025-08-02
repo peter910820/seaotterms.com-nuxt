@@ -15,6 +15,7 @@ const articleId = route.params.id as string;
 
 const { data, error } = await useFetch<CommonResponse<ArticleQuery[]>, CommonResponse>(`articles/${articleId}`, {
   baseURL: import.meta.env.VITE_API_URL,
+  credentials: "include",
 });
 
 const article = computed(() => (data.value?.data[0] ?? undefined) as ArticleQuery);

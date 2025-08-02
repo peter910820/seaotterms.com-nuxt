@@ -8,6 +8,7 @@ const router = useRouter();
 
 const { data, error } = await useFetch<CommonResponse<ArticleQuery[]>, CommonResponse>("articles", {
   baseURL: import.meta.env.VITE_API_URL,
+  credentials: "include",
 });
 
 const articles = computed(() => (data.value?.data ?? []) as ArticleQuery[]);

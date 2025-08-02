@@ -3,7 +3,7 @@ import { defineComponent, computed, ref, nextTick } from "vue";
 import { FetchError } from "ofetch";
 
 import FilterBlock from "~/components/FilterBlock.vue";
-
+import { userInfoHandler } from "@/utils/userInfoHandler";
 import { useTodoStore, useSystemTodoStore } from "~/stores/useTodoStore";
 import type { CommonResponse, TodoTopicQuery, SystemTodoQuery } from "~/types/response";
 
@@ -21,6 +21,7 @@ const { systemTodo, systemTodoSingle } = storeToRefs(systemTodoStore);
 
 const { data, error } = await useFetch<CommonResponse<SystemTodoQuery[]>, CommonResponse>("system-todos", {
   baseURL: import.meta.env.VITE_API_URL,
+  credentials: "include",
 });
 
 systemTodoStore.set(data.value?.data as SystemTodoQuery[]);
@@ -54,11 +55,14 @@ const openModal = async (id: number) => {
     const response = await $fetch<CommonResponse<SystemTodoQuery[]>>(`system-todos?id=${id}`, {
       baseURL: import.meta.env.VITE_API_URL,
       method: "GET",
+      credentials: "include",
     });
+    userInfoHandler(response.userInfo);
     systemTodoStore.setSingle(response.data);
   } catch (error) {
     if (error instanceof FetchError) {
       const fetchError = error as FetchError<CommonResponse>;
+      userInfoHandler(fetchError.data?.userInfo);
       if (fetchError.status === 401) {
         alert("階段性登入已過期，請重新登入");
         router.push("/login");
@@ -97,6 +101,7 @@ const changeStatus = async (id: number, status: number) => {
     await $fetch<CommonResponse<SystemTodoQuery[]>>(`system-todos?id=${id}`, {
       baseURL: import.meta.env.VITE_API_URL,
       method: "PATCH",
+      credentials: "include",
       body: {
         status: status,
         updatedName: "seaotterms",
@@ -110,7 +115,9 @@ const changeStatus = async (id: number, status: number) => {
     response = await $fetch<CommonResponse<SystemTodoQuery[]>>(`system-todos`, {
       baseURL: import.meta.env.VITE_API_URL,
       method: "GET",
+      credentials: "include",
     });
+    userInfoHandler(response.userInfo);
     systemTodoStore.set(response.data);
   }
 };
@@ -127,16 +134,20 @@ const deleteTodo = async (id: number) => {
     await $fetch<CommonResponse<SystemTodoQuery[]>>(`system-todos/${id}`, {
       baseURL: import.meta.env.VITE_API_URL,
       method: "DELETE",
+      credentials: "include",
     });
     let response = await $fetch<CommonResponse<SystemTodoQuery[]>>(`system-todos?id=${id}`, {
       baseURL: import.meta.env.VITE_API_URL,
       method: "GET",
+      credentials: "include",
     });
     systemTodoStore.setSingle(response.data);
     response = await $fetch<CommonResponse<SystemTodoQuery[]>>(`system-todos`, {
       baseURL: import.meta.env.VITE_API_URL,
       method: "GET",
+      credentials: "include",
     });
+
     systemTodoStore.set(response.data);
   }
 };

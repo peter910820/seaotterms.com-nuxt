@@ -1,13 +1,38 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
+import { userInfoHandler } from "@/utils/userInfoHandler";
+import { useRouter } from "vue-router";
+import type { CommonResponse } from "./types/response";
+import { FetchError } from "ofetch";
 
-onMounted(() => {
+const router = useRouter();
+
+onMounted(async () => {
   const bar = document.getElementById("loader");
   if (bar) {
     setTimeout(() => {
       bar.classList.add("loading-hidden");
     }, 300);
   }
+  try {
+    const response = await $fetch<CommonResponse>("auth", {
+      baseURL: import.meta.env.VITE_API_URL,
+      method: "POST",
+      credentials: "include",
+    });
+    userInfoHandler(response.userInfo);
+  } catch (error) {
+    if (error instanceof FetchError) {
+      const fetchError = error as FetchError<CommonResponse>;
+      userInfoHandler(fetchError.data?.userInfo);
+      messageStorage(fetchError.status, fetchError.data?.errMsg);
+      router.push("/message");
+    } else {
+      messageStorage();
+      router.push("/message");
+    }
+  }
+
   // @ts-ignore
   if (window.WOW) {
     // @ts-ignore

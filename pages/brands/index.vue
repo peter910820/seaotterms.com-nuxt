@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-
+import { userInfoHandler } from "@/utils/userInfoHandler";
 import { messageStorage } from "~/utils/messageHandler";
 
 import type { CommonResponse, BrandQuery, GameQuery } from "~/types/response";
@@ -14,6 +14,7 @@ const selectedBrandGames = ref<GameQuery[]>();
 
 const { data, error } = await useFetch<CommonResponse<BrandQuery[]>, CommonResponse>("brands", {
   baseURL: import.meta.env.VITE_API_URL,
+  credentials: "include",
 });
 
 const brands = computed(() => (data.value?.data ?? []) as BrandQuery[]);
@@ -34,11 +35,14 @@ const openModal = async (brand: string) => {
     const response = await $fetch<CommonResponse<GameQuery[]>>(`galgames/${brand}`, {
       baseURL: import.meta.env.VITE_API_URL,
       method: "GET",
+      credentials: "include",
     });
+    userInfoHandler(response.userInfo);
     selectedBrandGames.value = response.data;
   } catch (error) {
     if (error instanceof FetchError) {
       const fetchError = error as FetchError<CommonResponse>;
+      userInfoHandler(fetchError.data?.userInfo);
       messageStorage(fetchError.status, fetchError.data?.errMsg);
       router.push("/message");
     } else {

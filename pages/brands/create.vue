@@ -4,12 +4,12 @@ import { useRouter } from "vue-router";
 import { onMounted } from "vue";
 import { FetchError } from "ofetch";
 
-import { initMaterialDatepicker, initMaterialFormSelect } from "~/composables/useMaterial";
+import { initMaterialDatepicker, initMaterialFormSelect } from "@/composables/useMaterial";
+import { userInfoHandler } from "@/utils/userInfoHandler";
+import { messageStorage } from "@/utils/messageHandler";
 
-import { messageStorage } from "~/utils/messageHandler";
-
-import type { BrandCreateRequest } from "~/types/request";
-import type { CommonResponse } from "~/types/response";
+import type { BrandCreateRequest } from "@/types/request";
+import type { CommonResponse } from "@/types/response";
 
 const router = useRouter();
 
@@ -49,12 +49,15 @@ const handleSubmit = async () => {
       baseURL: import.meta.env.VITE_API_URL,
       method: "POST",
       body: request.value,
+      credentials: "include",
     });
+    userInfoHandler(response.userInfo);
     messageStorage(response.statusCode, response.infoMsg);
     router.push("/message");
   } catch (error) {
     if (error instanceof FetchError) {
       const fetchError = error as FetchError<CommonResponse>;
+      userInfoHandler(fetchError.data?.userInfo);
       if (fetchError.status === 401) {
         alert("階段性登入已過期，請重新登入");
         router.push("/login");

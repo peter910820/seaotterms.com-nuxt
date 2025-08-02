@@ -2,11 +2,13 @@
 definePageMeta({
   ssr: false,
 });
+
+import { userInfoHandler } from "@/utils/userInfoHandler";
 import { useUserStore } from "@/stores/useUserStore";
 import { FetchError } from "ofetch";
 
 import type { LoginRequest } from "@/types/request";
-import type { CommonResponse, LoginResponse } from "~/types/response";
+import type { CommonResponse } from "@/types/response";
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -18,18 +20,19 @@ const request = ref<LoginRequest>({
 
 const handleSubmit = async () => {
   try {
-    const response = await $fetch<CommonResponse<LoginResponse>>("login", {
+    const response = await $fetch<CommonResponse>("login", {
       baseURL: import.meta.env.VITE_API_URL,
       method: "POST",
       body: request.value,
       credentials: "include",
     });
+    userInfoHandler(response.userInfo);
     messageStorage(response.statusCode, response.infoMsg);
     router.push("/message");
-    userStore.set(response.data);
   } catch (error) {
     if (error instanceof FetchError) {
       const fetchError = error as FetchError<CommonResponse>;
+      userInfoHandler(fetchError.data?.userInfo);
       messageStorage(fetchError.status, fetchError.data?.errMsg);
       router.push("/message");
     } else {

@@ -2,7 +2,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { FetchError } from "ofetch";
-
+import { userInfoHandler } from "@/utils/userInfoHandler";
 import { messageStorage } from "~/utils/messageHandler";
 
 import { initMaterialDatepicker, initMaterialFormSelect } from "~/composables/useMaterial";
@@ -28,11 +28,14 @@ const startFilter = async () => {
     const response = await $fetch<CommonResponse<SystemTodoQuery[]>>(`system-todos?system_name=${filterValue.value}`, {
       baseURL: import.meta.env.VITE_API_URL,
       method: "GET",
+      credentials: "include",
     });
+    userInfoHandler(response.userInfo);
     systemTodoStore.set(response.data);
   } catch (error) {
     if (error instanceof FetchError) {
       const fetchError = error as FetchError<CommonResponse>;
+      userInfoHandler(fetchError.data?.userInfo);
       messageStorage(fetchError.status, fetchError.data?.errMsg);
       router.push("/message");
     } else {

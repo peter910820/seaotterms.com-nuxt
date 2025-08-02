@@ -1,7 +1,10 @@
+import type { UserType } from "@/types/userTypes";
+
 export interface CommonResponse<T = null> {
   statusCode: number;
   errMsg: string;
   infoMsg: string;
+  userInfo: UserType;
   data: T;
 }
 
@@ -93,4 +96,5 @@ export interface LoginResponse {
   updated_at: Date;
   update_name: string;
   avatar: string;
+  dataVersion: number;
 }
