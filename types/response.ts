@@ -82,3 +82,15 @@ export interface SystemTodoQuery {
   updatedAt: Date | null;
   updatedName: string | null;
 }
+
+export interface LoginResponse {
+  id: number;
+  username: string;
+  email: string;
+  exp: number;
+  management: boolean;
+  created_at: Date;
+  updated_at: Date;
+  update_name: string;
+  avatar: string;
+}

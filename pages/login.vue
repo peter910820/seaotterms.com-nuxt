@@ -2,30 +2,23 @@
 definePageMeta({
   ssr: false,
 });
-
+import { useUserStore } from "@/stores/useUserStore";
 import { FetchError } from "ofetch";
 
 import type { LoginRequest } from "@/types/request";
-import type { CommonResponse, TodoTopicQuery } from "~/types/response";
-// import axios from "axios";
-// import { ref } from "vue";
-// import { useRouter } from "vue-router";
-// // pinia store
-// import { useUserStore } from "@/store/user";
-
-// import { messageStorage } from "@/utils/messageHandler";
-
-// axios.defaults.withCredentials = true;
+import type { CommonResponse, LoginResponse } from "~/types/response";
 
 const router = useRouter();
-// const userStore = useUserStore();
+const userStore = useUserStore();
+
 const request = ref<LoginRequest>({
   username: "",
   password: "",
 });
+
 const handleSubmit = async () => {
   try {
-    const response = await $fetch<CommonResponse>("login", {
+    const response = await $fetch<CommonResponse<LoginResponse>>("login", {
       baseURL: import.meta.env.VITE_API_URL,
       method: "POST",
       body: request.value,
@@ -33,17 +26,12 @@ const handleSubmit = async () => {
     });
     messageStorage(response.statusCode, response.infoMsg);
     router.push("/message");
-    // userStore.set(response?.data.userData);
+    userStore.set(response.data);
   } catch (error) {
     if (error instanceof FetchError) {
       const fetchError = error as FetchError<CommonResponse>;
-      if (fetchError.status === 401) {
-        alert("階段性登入已過期，請重新登入");
-        router.push("/login");
-      } else {
-        messageStorage(fetchError.status, fetchError.data?.errMsg);
-        router.push("/message");
-      }
+      messageStorage(fetchError.status, fetchError.data?.errMsg);
+      router.push("/message");
     } else {
       messageStorage();
       router.push("/message");
