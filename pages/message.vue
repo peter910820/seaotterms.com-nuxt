@@ -2,7 +2,7 @@
 import { onMounted } from "vue";
 import { messageGet } from "@/utils/messageHandler";
 
-import type { MessageData } from "~/types/commonTypes";
+import type { MessageData } from "@/types/commonTypes";
 
 let msg: MessageData | undefined = {
   statusCode: 0,

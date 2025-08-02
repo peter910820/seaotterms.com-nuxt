@@ -2,10 +2,10 @@
 import { defineComponent, computed, ref, nextTick } from "vue";
 import { FetchError } from "ofetch";
 
-import FilterBlock from "~/components/FilterBlock.vue";
+import FilterBlock from "@/components/FilterBlock.vue";
 import { userInfoHandler } from "@/utils/userInfoHandler";
-import { useTodoStore, useSystemTodoStore } from "~/stores/useTodoStore";
-import type { CommonResponse, TodoTopicQuery, SystemTodoQuery } from "~/types/response";
+import { useTodoStore, useSystemTodoStore } from "@/stores/useTodoStore";
+import type { CommonResponse, TodoTopicQuery, SystemTodoQuery } from "@/types/response";
 
 declare global {
   interface Window {

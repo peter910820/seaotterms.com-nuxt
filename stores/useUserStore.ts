@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-import type { UserType } from "@/types/userTypes";
+import type { UserInfoType } from "@/types/userTypes";
 
 export const useUserStore = defineStore("user", () => {
-  const user = ref<UserType>({
+  const user = ref<UserInfoType>({
     id: 0,
     username: "",
     email: "",
@@ -17,7 +17,7 @@ export const useUserStore = defineStore("user", () => {
     dataVersion: 0,
   });
 
-  const set = (data: UserType) => {
+  const set = (data: UserInfoType) => {
     if (data?.dataVersion >= user.value.dataVersion) {
       user.value = data;
       console.log("refresh user info");

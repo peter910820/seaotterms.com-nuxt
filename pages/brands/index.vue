@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { userInfoHandler } from "@/utils/userInfoHandler";
-import { messageStorage } from "~/utils/messageHandler";
+import { messageStorage } from "@/utils/messageHandler";
 
-import type { CommonResponse, BrandQuery, GameQuery } from "~/types/response";
+import type { CommonResponse, BrandQuery, GameQuery } from "@/types/response";
 import { FetchError } from "ofetch";
 import dayjs from "dayjs";
 

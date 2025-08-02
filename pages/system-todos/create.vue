@@ -5,8 +5,8 @@ import { FetchError } from "ofetch";
 import { userInfoHandler } from "@/utils/userInfoHandler";
 import { initMaterialDatepicker, initMaterialFormSelect, initMaterialDropdown } from "@/composables/useMaterial";
 // pinia store
-import type { SystemTodoCreateRequest } from "~/types/request";
-import type { CommonResponse, TodoTopicQuery } from "~/types/response";
+import type { SystemTodoCreateRequest } from "@/types/request";
+import type { CommonResponse, TodoTopicQuery } from "@/types/response";
 
 import { messageStorage } from "@/utils/messageHandler";
 

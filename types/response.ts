@@ -1,10 +1,10 @@
-import type { UserType } from "@/types/userTypes";
+import type { UserInfoType } from "@/types/userTypes";
 
 export interface CommonResponse<T = null> {
   statusCode: number;
   errMsg: string;
   infoMsg: string;
-  userInfo: UserType;
+  userInfo: UserInfoType;
   data: T;
 }
 
@@ -84,17 +84,4 @@ export interface SystemTodoQuery {
   createdName: string;
   updatedAt: Date | null;
   updatedName: string | null;
-}
-
-export interface LoginResponse {
-  id: number;
-  username: string;
-  email: string;
-  exp: number;
-  management: boolean;
-  created_at: Date;
-  updated_at: Date;
-  update_name: string;
-  avatar: string;
-  dataVersion: number;
 }

@@ -6,7 +6,7 @@ import MarkdownIt from "markdown-it";
 import hljs from "highlight.js";
 import "highlight.js/styles/github-dark.css"; // highlight-styles
 
-import type { CommonResponse, ArticleQuery } from "~/types/response";
+import type { CommonResponse, ArticleQuery } from "@/types/response";
 
 const router = useRouter();
 const route = useRoute();

@@ -3,13 +3,13 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { FetchError } from "ofetch";
 import { userInfoHandler } from "@/utils/userInfoHandler";
-import { messageStorage } from "~/utils/messageHandler";
+import { messageStorage } from "@/utils/messageHandler";
 
-import { initMaterialDatepicker, initMaterialFormSelect } from "~/composables/useMaterial";
+import { initMaterialDatepicker, initMaterialFormSelect } from "@/composables/useMaterial";
 
-import { useTodoTopicStore, useSystemTodoStore } from "~/stores/useTodoStore";
+import { useTodoTopicStore, useSystemTodoStore } from "@/stores/useTodoStore";
 
-import type { CommonResponse, TodoTopicQuery, SystemTodoQuery } from "~/types/response";
+import type { CommonResponse, TodoTopicQuery, SystemTodoQuery } from "@/types/response";
 
 const router = useRouter();
 const todoTopicStore = useTodoTopicStore();

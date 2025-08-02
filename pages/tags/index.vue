@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 
-import type { CommonResponse, TagQuery } from "~/types/response";
+import type { CommonResponse, TagQuery } from "@/types/response";
 
 const router = useRouter();
 

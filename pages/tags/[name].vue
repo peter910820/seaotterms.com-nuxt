@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from "vue-router";
 
-import type { ArticleQuery, CommonResponse } from "~/types/response";
+import type { ArticleQuery, CommonResponse } from "@/types/response";
 
 const route = useRoute();
 const router = useRouter();

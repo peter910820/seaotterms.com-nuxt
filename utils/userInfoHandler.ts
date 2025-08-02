@@ -1,6 +1,6 @@
-import type { UserType } from "@/types/userTypes";
+import type { UserInfoType } from "@/types/userTypes";
 
-export const userInfoHandler = (userInfo: UserType | undefined) => {
+export const userInfoHandler = (userInfo: UserInfoType | undefined) => {
   const userStore = useUserStore();
   if (userInfo) {
     userStore.set(userInfo);

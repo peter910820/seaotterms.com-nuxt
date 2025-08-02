@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { CommonResponse, ArticleQuery } from "~/types/response";
+import type { CommonResponse, ArticleQuery } from "@/types/response";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const Typed: any;
