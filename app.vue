@@ -17,11 +17,12 @@ onMounted(async () => {
   try {
     const response = await $fetch<CommonResponse>("auth", {
       baseURL: import.meta.env.VITE_API_URL,
-      method: "POST",
+      method: "GET",
       credentials: "include",
     });
     userInfoHandler(response.userInfo);
   } catch (error) {
+    console.log(error);
     if (error instanceof FetchError) {
       const fetchError = error as FetchError<CommonResponse>;
       userInfoHandler(fetchError.data?.userInfo);
