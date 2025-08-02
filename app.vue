@@ -31,6 +31,7 @@ onMounted(() => {
       <MyProfile />
     </div>
   </div>
+  <MainFooter />
 </template>
 
 <style lang="scss">
