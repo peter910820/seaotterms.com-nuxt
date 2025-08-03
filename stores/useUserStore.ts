@@ -21,11 +21,11 @@ export const useUserStore = defineStore("user", () => {
     if (data) {
       if (data.dataVersion >= user.value.dataVersion) {
         user.value = data;
-        console.log("refresh user info");
       }
     } else {
       // 當後端傳回空並且剛才是有登入的(代表Session到期被登出或是客戶端手動清除Cookies)
       if (user.value.id !== 0) {
+        console.log("reset");
         reset();
       }
     }
