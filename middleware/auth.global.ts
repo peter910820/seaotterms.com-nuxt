@@ -8,7 +8,8 @@ export default defineNuxtRouteMiddleware(async (to) => {
   if (import.meta.server) return;
 
   if (to.path === "/message") return;
-
+  const userStore = useUserStore();
+  const { user } = storeToRefs(userStore);
   try {
     const response = await $fetch<CommonResponse>("auth", {
       baseURL: import.meta.env.VITE_API_URL,

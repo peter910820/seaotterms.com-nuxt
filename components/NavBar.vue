@@ -1,13 +1,10 @@
 <script setup lang="ts">
-// import { onMounted, computed } from "vue";
-// import { storeToRefs } from "pinia";
-// // pinia store
-// import { useUserStore } from "@/store/user";
-// import { initMaterialSidenav, initMaterialDropdown } from "~/composables/useMaterial";
+import { initMaterialSidenav, initMaterialDropdown } from "~/composables/useMaterial";
 
-// const userStore = useUserStore();
-// const { user } = storeToRefs(userStore);
-// const userData = computed(() => user.value);
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
+
+const userData = computed(() => user.value);
 
 onMounted(() => {
   initMaterialSidenav();
@@ -60,12 +57,12 @@ onMounted(() => {
         <i class="material-icons left">system_update_alt</i>
       </router-link>
     </li>
-    <!-- <li v-if="userData.username !== '' && userData.username !== undefined">
+    <li v-if="userData.username !== '' && userData.username !== undefined">
       <router-link to="/user-maintain">
         使用者帳號維護
         <i class="material-icons left">manage_accounts</i>
       </router-link>
-    </li> -->
+    </li>
   </ul>
   <!-- Main Navbar -->
   <nav>
@@ -112,7 +109,7 @@ onMounted(() => {
             >註冊<i class="material-icons left">how_to_reg</i></router-link
           > -->
         </li>
-        <!-- <li>
+        <li>
           <router-link v-if="userData.username === '' || userData.username === undefined" to="/login">
             登入
             <i class="material-icons left">login</i>
@@ -121,7 +118,7 @@ onMounted(() => {
             登出
             <i class="material-icons left">logout</i>
           </router-link>
-        </li> -->
+        </li>
       </ul>
     </div>
   </nav>
@@ -151,7 +148,7 @@ onMounted(() => {
     <!-- <li>
       <router-link to="/register">註冊</router-link>
     </li> -->
-    <!-- <li>
+    <li>
       <router-link v-if="userData.username !== '' && userData.username !== undefined" to="/user-maintain">
         使用者帳號維護
       </router-link>
@@ -159,7 +156,7 @@ onMounted(() => {
     <li>
       <router-link v-if="userData.username === '' || userData.username === undefined" to="/login">登入</router-link>
       <router-link v-else to="/login">登出</router-link>
-    </li> -->
+    </li>
   </ul>
 </template>
 

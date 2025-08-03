@@ -20,7 +20,7 @@ export const useUserStore = defineStore("user", () => {
   const set = (data: UserInfoType | null) => {
     if (data) {
       if (data.dataVersion >= user.value.dataVersion) {
-        user.value = data;
+        Object.assign(user.value, data); // 保留 reactive object，更新內容
       }
     } else {
       // 當後端傳回空並且剛才是有登入的(代表Session到期被登出或是客戶端手動清除Cookies)
@@ -41,6 +41,7 @@ export const useUserStore = defineStore("user", () => {
     user.value.updated_at = new Date();
     user.value.update_name = "";
     user.value.avatar = "";
+    user.value.dataVersion = 0;
   };
 
   return {

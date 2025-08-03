@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { defineComponent, computed, ref, nextTick } from "vue";
+import { computed, ref, nextTick } from "vue";
 import { FetchError } from "ofetch";
 
 import FilterBlock from "@/components/FilterBlock.vue";
 import { userInfoHandler } from "@/utils/userInfoHandler";
-import { useTodoStore, useSystemTodoStore } from "@/stores/useTodoStore";
-import type { CommonResponse, TodoTopicQuery, SystemTodoQuery } from "@/types/response";
+import { useSystemTodoStore } from "@/stores/useTodoStore";
+import type { CommonResponse, SystemTodoQuery } from "@/types/response";
 
 declare global {
   interface Window {
@@ -14,10 +14,13 @@ declare global {
   }
 }
 const router = useRouter();
+const userStore = useUserStore();
 const systemTodoStore = useSystemTodoStore();
 
-const modalVisible = ref(false);
+const { user } = storeToRefs(userStore);
 const { systemTodo, systemTodoSingle } = storeToRefs(systemTodoStore);
+
+const modalVisible = ref(false);
 
 const { data, error } = await useFetch<CommonResponse<SystemTodoQuery[]>, CommonResponse>("system-todos", {
   baseURL: import.meta.env.VITE_API_URL,
@@ -157,8 +160,9 @@ const deleteTodo = async (id: number) => {
   <div class="row main-block">
     <h1>
       系統更新待辦
-      <!-- <router-link v-if="userData && userData.management === true" to="/system-todo/create" class="button-simple"></router-link> -->
-      <router-link to="/system-todo/create" class="button-simple"> 點我新增 </router-link>
+      <router-link v-if="user?.management === true" to="/system-todos/create" class="button-simple"
+        >點我新增</router-link
+      >
     </h1>
     <FilterBlock />
     <div
@@ -217,10 +221,8 @@ const deleteTodo = async (id: number) => {
       <div v-else-if="systemTodoSingle.urgency === 2" class="col s12 left-align red-text">緊急</div>
       <div v-else class="col s12 left-align">?</div>
       <!-- todo-button -->
-      <!-- <h5 v-if="userData?.management" class="left-align">管理員操作介面</h5>
-      <div v-if="userData?.management" class="col s12 todo-button left-align"> -->
-      <h5 class="left-align">管理員操作介面</h5>
-      <div class="col s12 todo-button left-align">
+      <h5 v-if="user?.management" class="left-align">管理員操作介面</h5>
+      <div v-if="user?.management" class="col s12 todo-button left-align">
         <span
           :class="['button-status', systemTodoSingle.status == 0 ? 'background-n' : '']"
           @click="changeStatus(systemTodoSingle.id, 0)"

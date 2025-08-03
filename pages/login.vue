@@ -1,17 +1,16 @@
 <script setup lang="ts">
 definePageMeta({
   ssr: false,
+  middleware: "login",
 });
 
 import { userInfoHandler } from "@/utils/userInfoHandler";
-import { useUserStore } from "@/stores/useUserStore";
 import { FetchError } from "ofetch";
 
 import type { LoginRequest } from "@/types/request";
 import type { CommonResponse } from "@/types/response";
 
 const router = useRouter();
-const userStore = useUserStore();
 
 const request = ref<LoginRequest>({
   username: "",

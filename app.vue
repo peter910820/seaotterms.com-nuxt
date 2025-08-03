@@ -6,7 +6,7 @@ onMounted(async () => {
   if (bar) {
     setTimeout(() => {
       bar.classList.add("loading-hidden");
-    }, 300);
+    }, 100);
   }
   // @ts-ignore
   if (window.WOW) {
@@ -28,7 +28,9 @@ onMounted(async () => {
       <NuxtPage />
     </div>
     <div class="col l3 m12 s12 sticky-profile">
-      <MyProfile />
+      <ClientOnly>
+        <MyProfile />
+      </ClientOnly>
     </div>
   </div>
   <MainFooter />
