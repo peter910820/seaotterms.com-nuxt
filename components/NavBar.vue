@@ -22,7 +22,7 @@ onMounted(() => {
       </router-link>
     </li>
     <li>
-      <router-link to="/todo-topics">
+      <router-link to="/todo-topics/create">
         建立Todo類別
         <i class="material-icons left">fact_check</i>
       </router-link>
@@ -140,7 +140,7 @@ onMounted(() => {
       <router-link to="/todolists">TodoList</router-link>
     </li>
     <li>
-      <router-link to="/todo-topics">建立Todo類別</router-link>
+      <router-link to="/todo-topics/create">建立Todo類別</router-link>
     </li>
     <li>
       <router-link to="/create">建立文章</router-link>

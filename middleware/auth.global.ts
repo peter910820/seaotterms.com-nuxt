@@ -1,5 +1,7 @@
 import type { CommonResponse } from "@/types/response";
-import { FetchError } from "ofetch";
+import { errorHandler } from "@/utils/errorHandler";
+
+const needLoginPage = ["/todolists", "/todo-topics/create"];
 
 export default defineNuxtRouteMiddleware(async (to) => {
   // SSR階段不讓他進行任何userinfo的獲取，將這部分完全交給CSR
@@ -17,21 +19,13 @@ export default defineNuxtRouteMiddleware(async (to) => {
     });
     userInfoHandler(response.userInfo);
 
-    if (to.path === "/todolists") {
+    if (needLoginPage.includes(to.path)) {
       if (response.userInfo === null) {
         alert("使用者未登入");
         return navigateTo("/login");
       }
     }
   } catch (error) {
-    if (error instanceof FetchError) {
-      const fetchError = error as FetchError<CommonResponse>;
-      userInfoHandler(fetchError.data?.userInfo);
-      messageStorage(fetchError.status, fetchError.data?.errMsg);
-      return navigateTo("/message");
-    } else {
-      messageStorage();
-      return navigateTo("/message");
-    }
+    errorHandler(error);
   }
 });
