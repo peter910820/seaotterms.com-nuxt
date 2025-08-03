@@ -85,15 +85,22 @@ const handleSubmit = async () => {
     }
 
     try {
+      await $fetch<CommonResponse>(`todos`, {
+        baseURL: import.meta.env.VITE_API_URL,
+        method: "POST",
+        credentials: "include",
+        body: form.value,
+      });
       // refresh todolist
-      const response = await $fetch<CommonResponse<TodoQuery[]>>(`todos/${user.value.username}`, {
+      const response2 = await $fetch<CommonResponse<TodoQuery[]>>(`todos/${user.value.username}`, {
         baseURL: import.meta.env.VITE_API_URL,
         method: "GET",
         credentials: "include",
       });
-      todoStore.set(response.data);
+      todoStore.set(response2.data);
       form.value.owner = user.value.username;
     } catch (error) {
+      console.log(error);
       router.push("/message");
     }
   }
