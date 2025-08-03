@@ -98,7 +98,7 @@ const changeStatus = async (id: number, status: number) => {
       break;
   }
   if (confirm(`確定調整狀態為${statusText}?`)) {
-    await $fetch<CommonResponse<SystemTodoQuery[]>>(`system-todos?id=${id}`, {
+    await $fetch<CommonResponse<SystemTodoQuery[]>>(`system-todos/quick/${id}`, {
       baseURL: import.meta.env.VITE_API_URL,
       method: "PATCH",
       credentials: "include",
