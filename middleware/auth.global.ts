@@ -1,7 +1,7 @@
 import type { CommonResponse } from "@/types/response";
 import { errorHandler } from "@/utils/errorHandler";
 
-const needLoginPage = ["/todolists", "/todo-topics/create"];
+const needLoginPage = ["/todolists", "/todo-topics/create", "/user-maintain"];
 
 export default defineNuxtRouteMiddleware(async (to) => {
   // SSR階段不讓他進行任何userinfo的獲取，將這部分完全交給CSR

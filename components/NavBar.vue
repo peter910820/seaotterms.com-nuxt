@@ -57,7 +57,7 @@ onMounted(() => {
         <i class="material-icons left">system_update_alt</i>
       </router-link>
     </li>
-    <li v-if="userData.username !== '' && userData.username !== undefined">
+    <li v-if="userData.username !== '' && userData.username !== undefined && userData.management">
       <router-link to="/user-maintain">
         使用者帳號維護
         <i class="material-icons left">manage_accounts</i>

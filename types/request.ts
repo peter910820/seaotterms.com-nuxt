@@ -36,3 +36,15 @@ export interface TodoTopicRequest {
   updatedAt: string | Date;
   updateName: string;
 }
+
+export interface UserUpdateRequest {
+  id: number;
+  username: string;
+  email: string;
+  exp: number;
+  management: boolean;
+  created_at: string | Date;
+  updated_at: string | Date;
+  update_name: string;
+  avatar: string;
+}
