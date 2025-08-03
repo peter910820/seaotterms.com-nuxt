@@ -4,7 +4,6 @@ definePageMeta({
 });
 
 import { ref } from "vue";
-import { useRouter } from "vue-router";
 import { messageStorage } from "@/utils/messageHandler";
 
 import type { CommonResponse } from "@/types/response";
@@ -114,10 +113,5 @@ span {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-}
-/* font-settings */
-@font-face {
-  font-family: "ChenYuluoyan-Thin";
-  src: url("@/assets/fonts/ChenYuluoyan-Thin.ttf") format("truetype");
 }
 </style>

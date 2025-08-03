@@ -1,8 +1,7 @@
 import type { CommonResponse } from "@/types/response";
 import { errorHandler } from "@/utils/errorHandler";
 
-const needLoginPage = ["/todolists", "/todo-topics/create", "/user-maintain"];
-
+// 統一進行使用者資料的獲取，之後根據狀況決定要不要進行驗證的路由
 export default defineNuxtRouteMiddleware(async (to) => {
   // SSR階段不讓他進行任何userinfo的獲取，將這部分完全交給CSR
   // 如果有頁面是非公開頁面(是需要登入的)，那就讓該頁面資料的useeFetch增加lazy: true，讓資料獲取在CSR階段才執行
@@ -18,13 +17,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
       credentials: "include",
     });
     userInfoHandler(response.userInfo);
-
-    if (needLoginPage.includes(to.path)) {
-      if (response.userInfo === null) {
-        alert("使用者未登入");
-        return navigateTo("/login");
-      }
-    }
   } catch (error) {
     errorHandler(error);
   }

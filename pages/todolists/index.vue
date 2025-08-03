@@ -1,6 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   ssr: false,
+  middleware: "require-auth",
 });
 
 import { ref, computed } from "vue";
