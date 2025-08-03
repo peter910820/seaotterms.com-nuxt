@@ -13,8 +13,6 @@ import type { CommonResponse, TodoQuery, TodoTopicQuery } from "@/types/response
 
 import { messageStorage } from "@/utils/messageHandler";
 
-import { FetchError } from "ofetch";
-
 const router = useRouter();
 const todoTopicStore = useTodoTopicStore();
 const { todoTopic } = storeToRefs(todoTopicStore);
@@ -38,27 +36,27 @@ const todos = computed(() => todo.value);
 
 onMounted(async () => {
   // get todo topic
-  const response = await $fetch<CommonResponse<TodoTopicQuery[]>>(`todo-topics/${user.value.username}`, {
+  const responseTodoTopic = await $fetch<CommonResponse<TodoTopicQuery[]>>(`todo-topics/${user.value.username}`, {
     baseURL: import.meta.env.VITE_API_URL,
     method: "GET",
     credentials: "include",
   });
 
-  if (response) {
-    todoTopicStore.set(response.data);
+  if (responseTodoTopic) {
+    todoTopicStore.set(responseTodoTopic.data);
   } else {
     router.push("/message");
   }
   todoTopics.value = todoTopic.value;
 
   // get todo
-  const response2 = await $fetch<CommonResponse<TodoQuery[]>>(`todos/${user.value.username}`, {
+  const responseTodo = await $fetch<CommonResponse<TodoQuery[]>>(`todos/${user.value.username}`, {
     baseURL: import.meta.env.VITE_API_URL,
     method: "GET",
     credentials: "include",
   });
-  if (response) {
-    todoStore.set(response2.data);
+  if (responseTodo) {
+    todoStore.set(responseTodo.data);
   } else {
     router.push("/message");
     return;
@@ -69,6 +67,7 @@ onMounted(async () => {
   initMaterialFormSelect();
 });
 
+// create
 const handleSubmit = async () => {
   const deadlineTag = document.getElementById("deadline") as HTMLInputElement | null;
   if (deadlineTag) {
@@ -87,26 +86,21 @@ const handleSubmit = async () => {
     }
 
     try {
-      await $fetch<CommonResponse>(`todos`, {
+      const response = await $fetch<CommonResponse<TodoQuery[]>>(`todos`, {
         baseURL: import.meta.env.VITE_API_URL,
         method: "POST",
         credentials: "include",
         body: form.value,
       });
-      // refresh todolist
-      const response2 = await $fetch<CommonResponse<TodoQuery[]>>(`todos/${user.value.username}`, {
-        baseURL: import.meta.env.VITE_API_URL,
-        method: "GET",
-        credentials: "include",
-      });
-      todoStore.set(response2.data);
+      todoStore.set(response.data);
       form.value.owner = user.value.username;
     } catch (error) {
-      console.log(error);
-      router.push("/message");
+      errorHandler(error);
     }
   }
 };
+
+// update
 const changeStatus = async (id: number, status: number) => {
   let statusText = "";
   switch (status) {
@@ -124,61 +118,35 @@ const changeStatus = async (id: number, status: number) => {
       break;
   }
   if (confirm(`確定調整狀態為${statusText}?`)) {
-    await $fetch<CommonResponse<TodoQuery[]>>(`todos/${id}`, {
-      baseURL: import.meta.env.VITE_API_URL,
-      method: "PATCH",
-      credentials: "include",
-      body: {
-        status: status,
-        updateName: user.value.username,
-      },
-    });
-    const response = await $fetch<CommonResponse<TodoQuery[]>>(`todos/${user.value.username}`, {
-      baseURL: import.meta.env.VITE_API_URL,
-      method: "GET",
-      credentials: "include",
-    });
-    todoStore.set(response.data);
-  }
-};
-const deleteTodo = async (id: number) => {
-  if (confirm("確定刪除?")) {
-    await $fetch<CommonResponse<TodoQuery[]>>(`todos/${id}`, {
-      baseURL: import.meta.env.VITE_API_URL,
-      method: "DELETE",
-      credentials: "include",
-    });
-    const response = await $fetch<CommonResponse<TodoQuery[]>>(`todos/${user.value.username}`, {
-      baseURL: import.meta.env.VITE_API_URL,
-      method: "GET",
-      credentials: "include",
-    });
-    todoStore.set(response.data);
+    try {
+      const response = await $fetch<CommonResponse<TodoQuery[]>>(`todos/${id}`, {
+        baseURL: import.meta.env.VITE_API_URL,
+        method: "PATCH",
+        credentials: "include",
+        body: {
+          status: status,
+          updateName: user.value.username,
+        },
+      });
+      todoStore.set(response.data);
+    } catch (error) {
+      errorHandler(error);
+    }
   }
 };
 
-const refreshTodo = async () => {
-  try {
-    const response = await $fetch<CommonResponse<TodoQuery[]>>(`todos/${user.value.username}`, {
-      baseURL: import.meta.env.VITE_API_URL,
-      method: "GET",
-      credentials: "include",
-    });
-    todoStore.set(response.data);
-  } catch (error) {
-    if (error instanceof FetchError) {
-      const fetchError = error as FetchError<CommonResponse>;
-      userInfoHandler(fetchError.data?.userInfo);
-      if (fetchError.status === 401) {
-        alert("階段性登入已過期，請重新登入");
-        router.push("/login");
-      } else {
-        messageStorage(fetchError.status, fetchError.data?.errMsg);
-        router.push("/message");
-      }
-    } else {
-      messageStorage();
-      router.push("/message");
+// delete
+const deleteTodo = async (id: number) => {
+  if (confirm("確定刪除?")) {
+    try {
+      const response = await $fetch<CommonResponse<TodoQuery[]>>(`todos/${id}`, {
+        baseURL: import.meta.env.VITE_API_URL,
+        method: "DELETE",
+        credentials: "include",
+      });
+      todoStore.set(response.data);
+    } catch (error) {
+      errorHandler(error);
     }
   }
 };
