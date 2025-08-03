@@ -20,7 +20,7 @@ const request = ref<LoginRequest>({
 
 const handleSubmit = async () => {
   try {
-    const response = await $fetch<CommonResponse>("login", {
+    const response = await $fetch<CommonResponse>("auth/login", {
       baseURL: import.meta.env.VITE_API_URL,
       method: "POST",
       body: request.value,
