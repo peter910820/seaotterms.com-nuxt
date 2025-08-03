@@ -19,3 +19,13 @@ export interface LoginRequest {
   username: string;
   password: string;
 }
+
+export interface TodoRequest {
+  owner: string;
+  topic: string;
+  title: string;
+  status: number;
+  deadline: Date | null;
+  createName: string;
+  updateName: string;
+}

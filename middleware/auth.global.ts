@@ -8,8 +8,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
   if (import.meta.server) return;
 
   if (to.path === "/message") return;
-  const userStore = useUserStore();
-  const { user } = storeToRefs(userStore);
+
   try {
     const response = await $fetch<CommonResponse>("auth", {
       baseURL: import.meta.env.VITE_API_URL,
@@ -17,6 +16,13 @@ export default defineNuxtRouteMiddleware(async (to) => {
       credentials: "include",
     });
     userInfoHandler(response.userInfo);
+
+    if (to.path === "/todolists") {
+      if (response.userInfo === null) {
+        alert("使用者未登入");
+        return navigateTo("/login");
+      }
+    }
   } catch (error) {
     if (error instanceof FetchError) {
       const fetchError = error as FetchError<CommonResponse>;
