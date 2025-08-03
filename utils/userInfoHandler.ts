@@ -1,8 +1,8 @@
 import type { UserInfoType } from "@/types/userTypes";
 
 export const userInfoHandler = (userInfo: UserInfoType | undefined) => {
-  const userStore = useUserStore();
-  if (userInfo) {
+  if (userInfo !== undefined) {
+    const userStore = useUserStore();
     userStore.set(userInfo);
   }
 };
