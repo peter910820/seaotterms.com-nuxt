@@ -29,3 +29,10 @@ export interface TodoRequest {
   createName: string;
   updateName: string;
 }
+
+export interface TodoTopicRequest {
+  topicName: string;
+  topicOwner: string;
+  updatedAt: string | Date;
+  updateName: string;
+}

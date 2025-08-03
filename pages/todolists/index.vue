@@ -13,6 +13,8 @@ import type { CommonResponse, TodoQuery, TodoTopicQuery } from "@/types/response
 
 import { messageStorage } from "@/utils/messageHandler";
 
+import { FetchError } from "ofetch";
+
 const router = useRouter();
 const todoTopicStore = useTodoTopicStore();
 const { todoTopic } = storeToRefs(todoTopicStore);
@@ -152,6 +154,32 @@ const deleteTodo = async (id: number) => {
       credentials: "include",
     });
     todoStore.set(response.data);
+  }
+};
+
+const refreshTodo = async () => {
+  try {
+    const response = await $fetch<CommonResponse<TodoQuery[]>>(`todos/${user.value.username}`, {
+      baseURL: import.meta.env.VITE_API_URL,
+      method: "GET",
+      credentials: "include",
+    });
+    todoStore.set(response.data);
+  } catch (error) {
+    if (error instanceof FetchError) {
+      const fetchError = error as FetchError<CommonResponse>;
+      userInfoHandler(fetchError.data?.userInfo);
+      if (fetchError.status === 401) {
+        alert("階段性登入已過期，請重新登入");
+        router.push("/login");
+      } else {
+        messageStorage(fetchError.status, fetchError.data?.errMsg);
+        router.push("/message");
+      }
+    } else {
+      messageStorage();
+      router.push("/message");
+    }
   }
 };
 </script>
