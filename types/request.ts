@@ -1,3 +1,10 @@
+export interface ArticleCreateRequest {
+  title: string;
+  username: string;
+  tags: string[];
+  content: string;
+}
+
 export interface BrandCreateRequest {
   name: string;
   workAmount: number;

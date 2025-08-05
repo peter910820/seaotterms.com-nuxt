@@ -46,7 +46,7 @@ onMounted(() => {
   <!-- Other Dropdown Structure -->
   <ul id="other-dropdown" class="dropdown-content">
     <li>
-      <router-link to="/create">
+      <router-link to="/articles/create">
         建立文章
         <i class="material-icons left">edit</i>
       </router-link>
@@ -143,7 +143,7 @@ onMounted(() => {
       <router-link to="/todo-topics/create">建立Todo類別</router-link>
     </li>
     <li>
-      <router-link to="/create">建立文章</router-link>
+      <router-link to="/articles/create">建立文章</router-link>
     </li>
     <!-- <li>
       <router-link to="/register">註冊</router-link>
