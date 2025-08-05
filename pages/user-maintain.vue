@@ -1,14 +1,17 @@
 <script setup lang="ts">
 definePageMeta({
   ssr: false,
+  middleware: "require-auth",
 });
 
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { messageStorage } from "@/utils/messageHandler";
 
 import type { CommonResponse } from "@/types/response";
 import type { UserUpdateRequest } from "@/types/request";
 
+const router = useRouter();
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
 const form = ref<UserUpdateRequest>({
@@ -33,6 +36,7 @@ const handleSubmit = async () => {
     });
     messageStorage(response.statusCode, response.infoMsg);
     userInfoHandler(response.userInfo);
+    router.push("/message");
   } catch (error) {
     errorHandler(error);
   }
