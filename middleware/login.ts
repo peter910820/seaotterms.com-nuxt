@@ -3,7 +3,12 @@ export default defineNuxtRouteMiddleware((to) => {
 
   const userStore = useUserStore();
 
-  const session = useCookie("blog-userinfo-session");
+  const session = useCookie("blog-userinfo-session", {
+    path: "/",
+    maxAge: 0,
+    sameSite: "none",
+    domain: import.meta.env.VITE_ROOT_DOMAIN,
+  });
   session.value = null;
   userStore.reset();
 });
