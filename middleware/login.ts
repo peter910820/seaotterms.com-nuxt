@@ -8,6 +8,7 @@ export default defineNuxtRouteMiddleware((to) => {
     maxAge: 0,
     sameSite: "none",
     domain: import.meta.env.VITE_ROOT_DOMAIN,
+    secure: true,
   });
   session.value = null;
   userStore.reset();
