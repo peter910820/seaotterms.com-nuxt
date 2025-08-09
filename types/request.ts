@@ -55,3 +55,8 @@ export interface UserUpdateRequest {
   update_name: string;
   avatar: string;
 }
+
+export interface TagCreateRequest {
+  name: string;
+  iconName: string;
+}
