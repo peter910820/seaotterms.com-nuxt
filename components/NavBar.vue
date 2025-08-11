@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { initMaterialSidenav, initMaterialDropdown } from "~/composables/useMaterial";
+import { initMaterialSidenav, initMaterialDropdown } from "@/composables/useMaterial";
 
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);

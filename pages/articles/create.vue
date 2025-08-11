@@ -11,7 +11,7 @@ import { messageStorage } from "@/utils/messageHandler";
 import { initMaterialFormSelect } from "@/composables/useMaterial";
 
 import type { ArticleCreateRequest } from "@/types/request";
-import type { CommonResponse, TagQuery } from "@/types/response";
+import type { CommonResponse, TagQueryResponse } from "@/types/response";
 
 import MarkdownIt from "markdown-it";
 import hljs from "highlight.js";
@@ -25,11 +25,11 @@ const form = ref<ArticleCreateRequest>({
   tags: [],
   content: "",
 });
-const choiceTag = ref<TagQuery[]>();
+const choiceTag = ref<TagQueryResponse[]>();
 
 const router = useRouter();
 
-const { data, error } = await useFetch<CommonResponse<TagQuery[]>, CommonResponse>("tags", {
+const { data, error } = await useFetch<CommonResponse<TagQueryResponse[]>, CommonResponse>("tags", {
   baseURL: import.meta.env.VITE_API_URL,
   credentials: "include",
 });

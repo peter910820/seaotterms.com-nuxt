@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from "vue-router";
 
-import type { ArticleQuery, CommonResponse } from "@/types/response";
+import type { ArticleQueryResponse, CommonResponse } from "@/types/response";
 
 const route = useRoute();
 const router = useRouter();
 
 const tagName = route.params.name as string;
 
-const { data, error } = await useFetch<CommonResponse<ArticleQuery[]>, CommonResponse>(`tags/${tagName}`, {
+const { data, error } = await useFetch<CommonResponse<ArticleQueryResponse[]>, CommonResponse>(`tags/${tagName}`, {
   baseURL: import.meta.env.VITE_API_URL,
   credentials: "include",
 });
 
-const articles = computed(() => (data.value?.data ?? []) as ArticleQuery[]);
+const articles = computed(() => (data.value?.data ?? []) as ArticleQueryResponse[]);
 
 if (import.meta.client && error.value) {
   if (error.value.statusCode === 500) {

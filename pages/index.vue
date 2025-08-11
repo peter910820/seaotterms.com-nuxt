@@ -1,17 +1,17 @@
 <script lang="ts" setup>
-import type { CommonResponse, ArticleQuery } from "@/types/response";
+import type { CommonResponse, ArticleQueryResponse } from "@/types/response";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const Typed: any;
 
 const router = useRouter();
 
-const { data, error } = await useFetch<CommonResponse<ArticleQuery[]>, CommonResponse>("articles", {
+const { data, error } = await useFetch<CommonResponse<ArticleQueryResponse[]>, CommonResponse>("articles", {
   baseURL: import.meta.env.VITE_API_URL,
   credentials: "include",
 });
 
-const articles = computed(() => (data.value?.data ?? []) as ArticleQuery[]);
+const articles = computed(() => (data.value?.data ?? []) as ArticleQueryResponse[]);
 
 if (import.meta.client && error.value) {
   if (error.value.statusCode === 500) {

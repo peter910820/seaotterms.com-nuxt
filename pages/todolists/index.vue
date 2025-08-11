@@ -9,8 +9,8 @@ import { useRouter } from "vue-router";
 import { onMounted } from "vue";
 import { initMaterialDatepicker, initMaterialFormSelect, initMaterialDropdown } from "@/composables/useMaterial";
 
-import type { TodoRequest } from "@/types/request";
-import type { CommonResponse, TodoQuery, TodoTopicQuery } from "@/types/response";
+import type { TodoCreateRequest } from "@/types/request";
+import type { CommonResponse, TodoQueryResponse, TodoTopicQueryResponse } from "@/types/response";
 
 import { messageStorage } from "@/utils/messageHandler";
 
@@ -23,7 +23,7 @@ const { todo } = storeToRefs(todoStore);
 const todoTopics = ref();
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
-const form = ref<TodoRequest>({
+const form = ref<TodoCreateRequest>({
   owner: user.value.username,
   topic: "",
   title: "",
@@ -37,11 +37,14 @@ const todos = computed(() => todo.value);
 
 onMounted(async () => {
   // get todo topic
-  const responseTodoTopic = await $fetch<CommonResponse<TodoTopicQuery[]>>(`todo-topics/${user.value.username}`, {
-    baseURL: import.meta.env.VITE_API_URL,
-    method: "GET",
-    credentials: "include",
-  });
+  const responseTodoTopic = await $fetch<CommonResponse<TodoTopicQueryResponse[]>>(
+    `todo-topics/${user.value.username}`,
+    {
+      baseURL: import.meta.env.VITE_API_URL,
+      method: "GET",
+      credentials: "include",
+    },
+  );
 
   if (responseTodoTopic) {
     todoTopicStore.set(responseTodoTopic.data);
@@ -51,7 +54,7 @@ onMounted(async () => {
   todoTopics.value = todoTopic.value;
 
   // get todo
-  const responseTodo = await $fetch<CommonResponse<TodoQuery[]>>(`todos/${user.value.username}`, {
+  const responseTodo = await $fetch<CommonResponse<TodoQueryResponse[]>>(`todos/${user.value.username}`, {
     baseURL: import.meta.env.VITE_API_URL,
     method: "GET",
     credentials: "include",
@@ -87,7 +90,7 @@ const handleSubmit = async () => {
     }
 
     try {
-      const response = await $fetch<CommonResponse<TodoQuery[]>>(`todos`, {
+      const response = await $fetch<CommonResponse<TodoQueryResponse[]>>(`todos`, {
         baseURL: import.meta.env.VITE_API_URL,
         method: "POST",
         credentials: "include",
@@ -120,7 +123,7 @@ const changeStatus = async (id: number, status: number) => {
   }
   if (confirm(`確定調整狀態為${statusText}?`)) {
     try {
-      const response = await $fetch<CommonResponse<TodoQuery[]>>(`todos/${id}`, {
+      const response = await $fetch<CommonResponse<TodoQueryResponse[]>>(`todos/${id}`, {
         baseURL: import.meta.env.VITE_API_URL,
         method: "PATCH",
         credentials: "include",
@@ -140,7 +143,7 @@ const changeStatus = async (id: number, status: number) => {
 const deleteTodo = async (id: number) => {
   if (confirm("確定刪除?")) {
     try {
-      const response = await $fetch<CommonResponse<TodoQuery[]>>(`todos/${id}`, {
+      const response = await $fetch<CommonResponse<TodoQueryResponse[]>>(`todos/${id}`, {
         baseURL: import.meta.env.VITE_API_URL,
         method: "DELETE",
         credentials: "include",

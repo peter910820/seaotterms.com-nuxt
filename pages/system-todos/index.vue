@@ -5,7 +5,7 @@ import { FetchError } from "ofetch";
 import FilterBlock from "@/components/FilterBlock.vue";
 import { userInfoHandler } from "@/utils/userInfoHandler";
 import { useSystemTodoStore } from "@/stores/useTodoStore";
-import type { CommonResponse, SystemTodoQuery } from "@/types/response";
+import type { CommonResponse, SystemTodoQueryResponse } from "@/types/response";
 
 declare global {
   interface Window {
@@ -22,12 +22,12 @@ const { systemTodo, systemTodoSingle } = storeToRefs(systemTodoStore);
 
 const modalVisible = ref(false);
 
-const { data, error } = await useFetch<CommonResponse<SystemTodoQuery[]>, CommonResponse>("system-todos", {
+const { data, error } = await useFetch<CommonResponse<SystemTodoQueryResponse[]>, CommonResponse>("system-todos", {
   baseURL: import.meta.env.VITE_API_URL,
   credentials: "include",
 });
 
-systemTodoStore.set(data.value?.data as SystemTodoQuery[]);
+systemTodoStore.set(data.value?.data as SystemTodoQueryResponse[]);
 
 const systemTodos = computed(() => systemTodo.value);
 
@@ -55,7 +55,7 @@ const openModal = async (id: number) => {
   // refreshUserData();
 
   try {
-    const response = await $fetch<CommonResponse<SystemTodoQuery[]>>(`system-todos?id=${id}`, {
+    const response = await $fetch<CommonResponse<SystemTodoQueryResponse[]>>(`system-todos?id=${id}`, {
       baseURL: import.meta.env.VITE_API_URL,
       method: "GET",
       credentials: "include",
@@ -101,7 +101,7 @@ const changeStatus = async (id: number, status: number) => {
       break;
   }
   if (confirm(`確定調整狀態為${statusText}?`)) {
-    await $fetch<CommonResponse<SystemTodoQuery[]>>(`system-todos/quick/${id}`, {
+    await $fetch<CommonResponse<SystemTodoQueryResponse[]>>(`system-todos/quick/${id}`, {
       baseURL: import.meta.env.VITE_API_URL,
       method: "PATCH",
       credentials: "include",
@@ -110,12 +110,12 @@ const changeStatus = async (id: number, status: number) => {
         updatedName: "seaotterms",
       },
     });
-    let response = await $fetch<CommonResponse<SystemTodoQuery[]>>(`system-todos?id=${id}`, {
+    let response = await $fetch<CommonResponse<SystemTodoQueryResponse[]>>(`system-todos?id=${id}`, {
       baseURL: import.meta.env.VITE_API_URL,
       method: "GET",
     });
     systemTodoStore.setSingle(response.data);
-    response = await $fetch<CommonResponse<SystemTodoQuery[]>>(`system-todos`, {
+    response = await $fetch<CommonResponse<SystemTodoQueryResponse[]>>(`system-todos`, {
       baseURL: import.meta.env.VITE_API_URL,
       method: "GET",
       credentials: "include",
@@ -134,18 +134,18 @@ const goToEditPage = async (id: number) => {
 const deleteTodo = async (id: number) => {
   if (confirm("確定刪除?")) {
     // 原本沒處理錯誤，之後再調整
-    await $fetch<CommonResponse<SystemTodoQuery[]>>(`system-todos/${id}`, {
+    await $fetch<CommonResponse<SystemTodoQueryResponse[]>>(`system-todos/${id}`, {
       baseURL: import.meta.env.VITE_API_URL,
       method: "DELETE",
       credentials: "include",
     });
-    let response = await $fetch<CommonResponse<SystemTodoQuery[]>>(`system-todos?id=${id}`, {
+    let response = await $fetch<CommonResponse<SystemTodoQueryResponse[]>>(`system-todos?id=${id}`, {
       baseURL: import.meta.env.VITE_API_URL,
       method: "GET",
       credentials: "include",
     });
     systemTodoStore.setSingle(response.data);
-    response = await $fetch<CommonResponse<SystemTodoQuery[]>>(`system-todos`, {
+    response = await $fetch<CommonResponse<SystemTodoQueryResponse[]>>(`system-todos`, {
       baseURL: import.meta.env.VITE_API_URL,
       method: "GET",
       credentials: "include",

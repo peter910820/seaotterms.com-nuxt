@@ -6,7 +6,7 @@ import { userInfoHandler } from "@/utils/userInfoHandler";
 import { initMaterialDatepicker, initMaterialFormSelect, initMaterialDropdown } from "@/composables/useMaterial";
 // pinia store
 import type { SystemTodoCreateRequest } from "@/types/request";
-import type { CommonResponse, TodoTopicQuery } from "@/types/response";
+import type { CommonResponse, TodoTopicQueryResponse } from "@/types/response";
 
 import { messageStorage } from "@/utils/messageHandler";
 
@@ -21,12 +21,12 @@ const request = ref<SystemTodoCreateRequest>({
   createdName: "seaotterms",
 });
 
-const { data, error } = await useFetch<CommonResponse<TodoTopicQuery[]>, CommonResponse>("todo-topics/system", {
+const { data, error } = await useFetch<CommonResponse<TodoTopicQueryResponse[]>, CommonResponse>("todo-topics/system", {
   baseURL: import.meta.env.VITE_API_URL,
   credentials: "include",
 });
 
-const todoTopics = computed(() => (data.value?.data ?? []) as TodoTopicQuery[]);
+const todoTopics = computed(() => (data.value?.data ?? []) as TodoTopicQueryResponse[]);
 
 if (import.meta.client && error.value) {
   if (error.value.statusCode === 500) {

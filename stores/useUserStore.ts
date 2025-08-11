@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-import type { UserInfoType } from "@/types/userTypes";
+import type { UserInfo } from "@/types/user";
 
 export const useUserStore = defineStore("user", () => {
-  const user = ref<UserInfoType>({
+  const user = ref<UserInfo>({
     id: 0,
     username: "",
     email: "",
@@ -17,7 +17,7 @@ export const useUserStore = defineStore("user", () => {
     dataVersion: 0,
   });
 
-  const set = (data: UserInfoType | null) => {
+  const set = (data: UserInfo | null) => {
     if (data) {
       if (data.dataVersion >= user.value.dataVersion) {
         Object.assign(user.value, data); // 保留 reactive object，更新內容

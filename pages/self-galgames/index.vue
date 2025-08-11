@@ -2,21 +2,21 @@
 import { ref } from "vue";
 import dayjs from "dayjs";
 
-import type { BrandRecordQuery, CommonResponse, GameRecordQuery } from "@/types/response";
+import type { BrandRecordQueryResponse, CommonResponse, GameRecordQueryResponse } from "@/types/response";
 
 const modalVisible = ref(false);
 const selectedBrand = ref("");
-const selectedBrandGames = ref<GameRecordQuery[]>([]);
+const selectedBrandGames = ref<GameRecordQueryResponse[]>([]);
 let total = ref(0);
 
 const router = useRouter();
 
-const { data, error } = await useFetch<CommonResponse<BrandRecordQuery[]>, CommonResponse>("galgame-brands", {
+const { data, error } = await useFetch<CommonResponse<BrandRecordQueryResponse[]>, CommonResponse>("galgame-brands", {
   baseURL: import.meta.env.VITE_API_URL,
   credentials: "include",
 });
 
-const brandRecord = data.value?.data as BrandRecordQuery[];
+const brandRecord = data.value?.data as BrandRecordQueryResponse[];
 total.value = brandRecord.reduce((acc, cur) => acc + cur.completed, 0);
 
 if (import.meta.client && error.value) {
@@ -32,7 +32,7 @@ if (import.meta.client && error.value) {
 const openModal = async (brand: string) => {
   selectedBrand.value = brand;
   try {
-    const response = await $fetch<CommonResponse<GameRecordQuery[]>>(`galgames/${brand}`, {
+    const response = await $fetch<CommonResponse<GameRecordQueryResponse[]>>(`galgames/${brand}`, {
       baseURL: import.meta.env.VITE_API_URL,
       method: "GET",
       credentials: "include",

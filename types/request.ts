@@ -1,3 +1,10 @@
+// request的型別(DTO)
+
+export interface LoginRequest {
+  username: string;
+  password: string;
+}
+
 export interface ArticleCreateRequest {
   title: string;
   username: string;
@@ -22,12 +29,7 @@ export interface SystemTodoCreateRequest {
   createdName: string;
 }
 
-export interface LoginRequest {
-  username: string;
-  password: string;
-}
-
-export interface TodoRequest {
+export interface TodoCreateRequest {
   owner: string;
   topic: string;
   title: string;
@@ -37,7 +39,7 @@ export interface TodoRequest {
   updateName: string;
 }
 
-export interface TodoTopicRequest {
+export interface TodoTopicCreateRequest {
   topicName: string;
   topicOwner: string;
   updatedAt: string | Date;

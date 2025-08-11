@@ -1,6 +1,6 @@
 import { errorSet } from "@/utils/error";
 
-import type { MessageData } from "@/types/commonTypes";
+import type { MessageData } from "@/types/common";
 
 export const messageStorage = (code?: number, msg?: string, errCode?: string) => {
   // 目前邏輯是，如果有不是API交互產生的錯誤，就會攜帶errCode

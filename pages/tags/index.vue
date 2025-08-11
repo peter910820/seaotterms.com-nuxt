@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 
-import type { CommonResponse, TagQuery } from "@/types/response";
+import type { CommonResponse, TagQueryResponse } from "@/types/response";
 
 const router = useRouter();
 
-const { data, error } = await useFetch<CommonResponse<TagQuery[]>, CommonResponse>("tags", {
+const { data, error } = await useFetch<CommonResponse<TagQueryResponse[]>, CommonResponse>("tags", {
   baseURL: import.meta.env.VITE_API_URL,
   credentials: "include",
 });
 
-const tags = computed(() => (data.value?.data ?? []) as TagQuery[]);
+const tags = computed(() => (data.value?.data ?? []) as TagQueryResponse[]);
 
 if (import.meta.client && error.value) {
   if (error.value.statusCode === 500) {

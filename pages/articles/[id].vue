@@ -6,19 +6,22 @@ import MarkdownIt from "markdown-it";
 import hljs from "highlight.js";
 import "highlight.js/styles/github-dark.css"; // highlight-styles
 
-import type { CommonResponse, ArticleQuery } from "@/types/response";
+import type { CommonResponse, ArticleQueryResponse } from "@/types/response";
 
 const router = useRouter();
 const route = useRoute();
 
 const articleId = route.params.id as string;
 
-const { data, error } = await useFetch<CommonResponse<ArticleQuery[]>, CommonResponse>(`articles/${articleId}`, {
-  baseURL: import.meta.env.VITE_API_URL,
-  credentials: "include",
-});
+const { data, error } = await useFetch<CommonResponse<ArticleQueryResponse[]>, CommonResponse>(
+  `articles/${articleId}`,
+  {
+    baseURL: import.meta.env.VITE_API_URL,
+    credentials: "include",
+  },
+);
 
-const article = computed(() => (data.value?.data[0] ?? undefined) as ArticleQuery);
+const article = computed(() => (data.value?.data[0] ?? undefined) as ArticleQueryResponse);
 
 if (import.meta.client && error.value) {
   if (error.value.statusCode === 500) {

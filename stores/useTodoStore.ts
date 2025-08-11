@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-import type { TodoTopicQuery, TodoQuery, SystemTodoQuery } from "~/types/response";
+import type { TodoTopicQueryResponse, TodoQueryResponse, SystemTodoQueryResponse } from "@/types/response";
 
 export const useTodoTopicStore = defineStore("todoTopic", () => {
-  const todoTopic = ref<TodoTopicQuery[]>([]);
-  const set = (data: TodoTopicQuery[]) => {
+  const todoTopic = ref<TodoTopicQueryResponse[]>([]);
+  const set = (data: TodoTopicQueryResponse[]) => {
     todoTopic.value = data;
   };
 
@@ -16,8 +16,8 @@ export const useTodoTopicStore = defineStore("todoTopic", () => {
 });
 
 export const useTodoStore = defineStore("todo", () => {
-  const todo = ref<TodoQuery[]>([]);
-  const set = (data: TodoQuery[]) => {
+  const todo = ref<TodoQueryResponse[]>([]);
+  const set = (data: TodoQueryResponse[]) => {
     const convertedTodo = data.map((todo) => ({
       ...todo,
       deadline: todo.deadline ? new Date(todo.deadline) : todo.deadline,
@@ -32,12 +32,12 @@ export const useTodoStore = defineStore("todo", () => {
 });
 
 export const useSystemTodoStore = defineStore("systemTodo", () => {
-  const systemTodo = ref<SystemTodoQuery[]>([]);
-  const systemTodoSingle = ref<SystemTodoQuery | null>(null); // for details
-  const set = (data: SystemTodoQuery[]) => {
+  const systemTodo = ref<SystemTodoQueryResponse[]>([]);
+  const systemTodoSingle = ref<SystemTodoQueryResponse | null>(null); // for details
+  const set = (data: SystemTodoQueryResponse[]) => {
     systemTodo.value = data;
   };
-  const setSingle = (data: SystemTodoQuery[] | null) => {
+  const setSingle = (data: SystemTodoQueryResponse[] | null) => {
     if (!data || data.length === 0) {
       systemTodoSingle.value = null;
     } else {

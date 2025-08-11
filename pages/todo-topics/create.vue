@@ -10,14 +10,14 @@ import { storeToRefs } from "pinia";
 
 import { messageStorage } from "@/utils/messageHandler";
 
-import type { TodoTopicRequest } from "@/types/request";
+import type { TodoTopicCreateRequest } from "@/types/request";
 import type { CommonResponse } from "@/types/response";
 import { errorHandler } from "@/utils/errorHandler";
 
 const router = useRouter();
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
-const form = ref<TodoTopicRequest>({
+const form = ref<TodoTopicCreateRequest>({
   topicName: "",
   topicOwner: user.value.username,
   updatedAt: new Date(),

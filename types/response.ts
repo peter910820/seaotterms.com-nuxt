@@ -1,23 +1,25 @@
-import type { UserInfoType } from "@/types/userTypes";
+import type { UserInfo } from "@/types/user";
+
+// response的型別(DTO)
 
 export interface CommonResponse<T = null> {
   statusCode: number;
   errMsg: string;
   infoMsg: string;
-  userInfo: UserInfoType;
+  userInfo: UserInfo;
   data: T;
 }
 
-export interface ArticleQuery {
+export interface ArticleQueryResponse {
   id: number;
   title: string;
   content: string;
   createdAt: Date;
   updatedAt: Date;
-  tags: TagQuery[];
+  tags: TagQueryResponse[];
 }
 
-export interface TagQuery {
+export interface TagQueryResponse {
   name: string;
   iconName: string;
   content: string;
@@ -25,7 +27,7 @@ export interface TagQuery {
   updatedAt: Date;
 }
 
-export interface BrandQuery {
+export interface BrandQueryResponse {
   id: number;
   name: string;
   workAmount: number;
@@ -37,7 +39,7 @@ export interface BrandQuery {
   updatedName: string;
 }
 
-export interface GameQuery {
+export interface GameQueryResponse {
   id: number;
   name: string;
   chineseName: string;
@@ -52,14 +54,14 @@ export interface GameQuery {
   updatedName: string;
 }
 
-export interface TodoTopicQuery {
+export interface TodoTopicQueryResponse {
   topicName: string;
   topicOwner: string;
   updatedAt: Date;
   updateName: string | null;
 }
 
-export interface TodoQuery {
+export interface TodoQueryResponse {
   id: number;
   owner: string;
   topic: string;
@@ -72,7 +74,7 @@ export interface TodoQuery {
   updateName: string | null;
 }
 
-export interface SystemTodoQuery {
+export interface SystemTodoQueryResponse {
   id: number;
   systemName: string;
   title: string;
@@ -86,7 +88,7 @@ export interface SystemTodoQuery {
   updatedName: string | null;
 }
 
-export interface BrandRecordQuery {
+export interface BrandRecordQueryResponse {
   brand: string;
   completed: number;
   total: number;
@@ -98,7 +100,7 @@ export interface BrandRecordQuery {
   updateName: string;
 }
 
-export interface GameRecordQuery {
+export interface GameRecordQueryResponse {
   name: string;
   releaseDate: string;
   allAges: boolean;
