@@ -85,3 +85,22 @@ export interface SystemTodoQuery {
   updatedAt: Date | null;
   updatedName: string | null;
 }
+
+export interface BrandRecordQuery {
+  brand: string;
+  completed: number;
+  total: number;
+  annotation: string;
+  dissolution: boolean;
+  inputTime: string | Date;
+  inputName: string;
+  updateTime: string | Date;
+  updateName: string;
+}
+
+export interface GameRecordQuery {
+  name: string;
+  releaseDate: string;
+  allAges: boolean;
+  endDate: string;
+}
