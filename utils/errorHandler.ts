@@ -8,12 +8,19 @@ export const errorHandler = (error: any) => {
     // 錯誤的時候，也要更新UserInfo
     userInfoHandler(fetchError.data?.userInfo);
     messageStorage(fetchError.status, fetchError.data?.errMsg);
-    if (fetchError.status === 401) {
-      alert("階段性登入已過期，請重新登入");
-      router.push("/login");
-    } else {
-      messageStorage(fetchError.status, fetchError.data?.errMsg);
-      router.push("/message");
+    switch (fetchError.status) {
+      case 401:
+        alert("階段性登入已過期，請重新登入");
+        router.push("/login");
+        break;
+      case 403:
+        alert("使用者沒有使用該資源的權限");
+        router.push("/");
+        break;
+      default:
+        messageStorage(fetchError.status, fetchError.data?.errMsg);
+        router.push("/message");
+        break;
     }
   } else {
     messageStorage();

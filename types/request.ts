@@ -62,3 +62,11 @@ export interface TagCreateRequest {
   name: string;
   iconName: string;
 }
+
+export interface BrandRecordCreateRequest {
+  brand: string;
+  username: string;
+  completed: number;
+  total: number;
+  dissolution: boolean;
+}
