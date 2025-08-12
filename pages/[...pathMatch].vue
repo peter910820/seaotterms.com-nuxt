@@ -32,6 +32,7 @@
   text-align: center;
   justify-content: center;
   font-size: 30px;
+  height: 100%;
 }
 .error-code {
   font-size: 100px;

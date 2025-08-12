@@ -107,7 +107,7 @@ const changeStatus = async (id: number, status: number) => {
       credentials: "include",
       body: {
         status: status,
-        updatedName: "seaotterms",
+        updatedName: user.value.username,
       },
     });
     let response = await $fetch<CommonResponse<SystemTodoQueryResponse[]>>(`system-todos?id=${id}`, {
@@ -125,9 +125,8 @@ const changeStatus = async (id: number, status: number) => {
   }
 };
 
-// ??
 const goToEditPage = async (id: number) => {
-  window.location.href = `/system-todo/edit/${id}`;
+  router.push(`/system-todos/${id}/edit`);
   return;
 };
 
