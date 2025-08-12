@@ -37,7 +37,7 @@ onMounted(() => {
       </router-link>
     </li>
     <li>
-      <router-link to="/galgame/article-operation">
+      <router-link to="/self-galgames/operation">
         Galgame文章作業
         <i class="material-icons left">description</i>
       </router-link>
@@ -134,7 +134,7 @@ onMounted(() => {
       <router-link to="/self-galgames">Galgame紀錄</router-link>
     </li>
     <li>
-      <router-link to="/galgame/article-operation">Galgame文章作業</router-link>
+      <router-link to="/self-galgames/operation">Galgame文章作業</router-link>
     </li>
     <li>
       <router-link to="/todolists">TodoList</router-link>

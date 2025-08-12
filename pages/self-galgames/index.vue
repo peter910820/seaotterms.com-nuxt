@@ -57,9 +57,9 @@ const formatDate = (date: string) => dayjs(date).format("YYYY-MM-DD");
     <div class="col s12 center-align galgameBrandTitle">
       <div class="col s12">
         Galgameブランド紀錄
-        <router-link to="/galgamebrand/create" class="button-simple">點我新增品牌</router-link>
+        <router-link to="/self-galgames/brands/create" class="button-simple">點我新增品牌</router-link>
 
-        <router-link to="/galgame/create" class="button-simple">點我新增遊戲</router-link>
+        <router-link to="/self-galgames/games/create" class="button-simple">點我新增遊戲</router-link>
       </div>
     </div>
     <div class="col s12 galgameBrandHeader">
@@ -98,7 +98,7 @@ const formatDate = (date: string) => dayjs(date).format("YYYY-MM-DD");
         <font color="red">{{ galgameBrandData.dissolution ? "解散" : "" }}</font>
       </div>
       <div class="col s1">
-        <router-link :to="`/galgamebrand/edit/${galgameBrandData.brand}`" class="button-simple modify">
+        <router-link :to="`/self-galgames/games/${galgameBrandData.brand}/edit`" class="button-simple modify">
           修改
         </router-link>
       </div>
