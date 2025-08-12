@@ -98,7 +98,7 @@ const formatDate = (date: string) => dayjs(date).format("YYYY-MM-DD");
         <font color="red">{{ galgameBrandData.dissolution ? "解散" : "" }}</font>
       </div>
       <div class="col s1">
-        <router-link :to="`/self-galgames/games/${galgameBrandData.brand}/edit`" class="button-simple modify">
+        <router-link :to="`/self-galgames/brands/${galgameBrandData.brand}/edit`" class="button-simple modify">
           修改
         </router-link>
       </div>
@@ -129,7 +129,9 @@ const formatDate = (date: string) => dayjs(date).format("YYYY-MM-DD");
           </div>
           <div class="col s1" v-else><font color="purple">全年齡</font></div>
           <div class="col s1">
-            <router-link :to="`/`" class="button-simple modify">修改</router-link>
+            <router-link :to="`/self-galgames/games/${brandGames.name}/edit`" class="button-simple modify"
+              >修改</router-link
+            >
           </div>
         </div>
       </div>

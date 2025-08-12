@@ -50,7 +50,7 @@ const handleSubmit = async () => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const endDate = new Date((document.getElementById("endDate")! as HTMLInputElement).value).toISOString();
   if (endDate <= releaseDate) {
-    alert("輸入日期不正確");
+    alert("遊玩結束日期不可小於發售日期");
     return;
   }
   form.value.releaseDate = releaseDate;

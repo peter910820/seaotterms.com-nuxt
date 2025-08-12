@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { ref, defineComponent } from "vue";
+definePageMeta({
+  ssr: false,
+  middleware: "require-management",
+});
+
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 import { messageStorage } from "@/utils/messageHandler";
@@ -15,7 +20,7 @@ const router = useRouter();
 const gameName = route.params.name as string;
 
 const { data, error } = await useFetch<CommonResponse<GameRecordQueryResponse[]>, CommonResponse>(
-  `galgame/s/${gameName}`,
+  `galgames/s/${gameName}`,
   {
     baseURL: import.meta.env.VITE_API_URL,
     credentials: "include",
