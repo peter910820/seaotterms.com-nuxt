@@ -9,27 +9,30 @@ import { initMaterialDatepicker, initMaterialFormSelect } from "@/composables/us
 
 import { useTodoTopicStore, useSystemTodoStore } from "@/stores/useTodoStore";
 
-import type { CommonResponse, TodoTopicQuery, SystemTodoQuery } from "@/types/response";
+import type { CommonResponse, TodoTopicQueryResponse, SystemTodoQueryResponse } from "@/types/response";
 
 const router = useRouter();
 const todoTopicStore = useTodoTopicStore();
 const systemTodoStore = useSystemTodoStore();
 const filterValue = ref<string>("");
 
-const { data, error } = await useFetch<CommonResponse<TodoTopicQuery[]>, CommonResponse>(`todo-topics/system`, {
+const { data, error } = await useFetch<CommonResponse<TodoTopicQueryResponse[]>, CommonResponse>(`todo-topics/system`, {
   baseURL: import.meta.env.VITE_API_URL,
 });
 
-const todoTopics = computed(() => (data.value?.data ?? []) as TodoTopicQuery[]);
+const todoTopics = computed(() => (data.value?.data ?? []) as TodoTopicQueryResponse[]);
 todoTopicStore.set(todoTopics.value);
 
 const startFilter = async () => {
   try {
-    const response = await $fetch<CommonResponse<SystemTodoQuery[]>>(`system-todos?system_name=${filterValue.value}`, {
-      baseURL: import.meta.env.VITE_API_URL,
-      method: "GET",
-      credentials: "include",
-    });
+    const response = await $fetch<CommonResponse<SystemTodoQueryResponse[]>>(
+      `system-todos?system_name=${filterValue.value}`,
+      {
+        baseURL: import.meta.env.VITE_API_URL,
+        method: "GET",
+        credentials: "include",
+      },
+    );
     userInfoHandler(response.userInfo);
     systemTodoStore.set(response.data);
   } catch (error) {
@@ -103,8 +106,8 @@ onMounted(() => {
 <style lang="scss" scoped>
 %filter {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center !important;
+  align-items: center !important;
   height: 100%;
 }
 
@@ -118,6 +121,7 @@ onMounted(() => {
 
 .sub-block {
   .row {
+    height: 100%;
     .col {
       @extend %filter;
     }

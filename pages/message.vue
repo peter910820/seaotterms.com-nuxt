@@ -75,18 +75,19 @@ onMounted(() => {
   text-align: center;
   justify-content: center;
   font-size: 30px;
+  height: 100%;
 }
 .msg-code {
-  font-size: 100px;
+  font-size: 80px;
   color: red;
 }
 .msg-hint {
-  font-size: 50px;
+  font-size: 40px;
   margin-bottom: 20px;
   color: red;
 }
 .success-hint {
-  font-size: 70px;
+  font-size: 60px;
   margin-bottom: 20px;
   color: blue;
 }

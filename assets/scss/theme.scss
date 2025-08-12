@@ -1,4 +1,6 @@
 :root {
+  font-family: "Cubic_11_1.100_R", "JosefinSans-VariableFont_wght";
+
   --color-background: #f2ebea;
   --color-border: white; // --image-background: #212529;
   --image-banner: url("~/assets/image/background.png");
@@ -6,4 +8,22 @@
 
 .dark {
   --color-background: #212529;
+}
+
+/* font-settings */
+@font-face {
+  font-family: "Cubic_11_1.100_R";
+  src: url("/fonts/Cubic_11_1.100_R.ttf") format("truetype");
+}
+@font-face {
+  font-family: "JosefinSans-VariableFont_wght";
+  src: url("/fonts/JosefinSans-VariableFont_wght.ttf") format("truetype");
+}
+@font-face {
+  font-family: "ChenYuluoyan-Thin";
+  src: url("/fonts/ChenYuluoyan-Thin.ttf") format("truetype");
+}
+@font-face {
+  font-family: "jf-openhuninn-2.1";
+  src: url("/fonts/jf-openhuninn-2.1.ttf") format("truetype");
 }

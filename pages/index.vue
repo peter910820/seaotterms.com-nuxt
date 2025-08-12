@@ -39,7 +39,7 @@ const tagClick = (tag: string, event: any) => {
 onMounted(() => {
   // eslint-disable-next-line no-undef
   new Typed(".banner>div>div", {
-    strings: ["一個Galgame玩家，", "不是正在玩Galgame就是在玩Galgame的路上。"],
+    strings: ["正在嘗試進步，", "學很多怪技術跟做很多小東西。"],
     typeSpeed: 80,
     loop: true,
     showCursor: false,
@@ -115,6 +115,7 @@ onMounted(() => {
     left: 0;
     background-color: rgba(240, 248, 255, 0.5);
     > div {
+      font-family: "ChenYuluoyan-Thin";
       min-height: 100%;
       max-height: 100%;
       margin: 50px;
