@@ -8,11 +8,13 @@ export default defineNuxtConfig({
     },
   },
   modules: ["@pinia/nuxt"],
+  plugins: ["@/plugins/nprogress.client.ts"],
   css: [
     "@/assets/scss/theme.scss",
     "@/assets/scss/animates.scss",
     "@/assets/scss/button.scss",
     "@/assets/scss/loader.scss",
+    "@/assets/scss/progress.scss",
   ],
   app: {
     head: {
