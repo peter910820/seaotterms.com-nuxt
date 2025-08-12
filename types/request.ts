@@ -70,3 +70,30 @@ export interface BrandRecordCreateRequest {
   total: number;
   dissolution: boolean;
 }
+
+export interface BrandRecordUpdateRequest {
+  brand: string;
+  username: string;
+  completed: number;
+  total: number;
+  dissolution: boolean;
+}
+
+export interface GameRecordCreateRequest {
+  username: string;
+  name: string;
+  brand: string;
+  releaseDate: string;
+  allAges: boolean;
+  endDate: string;
+}
+
+export interface GameRecordUpdateRequest {
+  name: string;
+  brand: string;
+  releaseDate: string;
+  allAges: boolean;
+  endDate: string;
+  updateTime: string;
+  username: string;
+}

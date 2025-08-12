@@ -102,7 +102,12 @@ export interface BrandRecordQueryResponse {
 
 export interface GameRecordQueryResponse {
   name: string;
+  brand: string;
   releaseDate: string;
   allAges: boolean;
   endDate: string;
+  inputTime: string;
+  inputName: string;
+  updateTime: string;
+  updateName: string;
 }
