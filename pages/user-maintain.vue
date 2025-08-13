@@ -8,7 +8,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { messageStorage } from "@/utils/messageHandler";
 
-import type { CommonResponse } from "@/types/response";
+import type { CommonResponse, UserQueryResponse } from "@/types/response";
 import type { UserUpdateRequest } from "@/types/request";
 
 const router = useRouter();
@@ -25,9 +25,30 @@ const form = ref<UserUpdateRequest>({
   update_name: user.value.update_name,
   avatar: user.value.avatar,
 });
+const allUserData = ref<UserQueryResponse[]>([]);
+
+onMounted(() => {
+  initMaterialModal();
+});
+
+const changeStatus = async () => {
+  try {
+    const response = await $fetch<CommonResponse<UserQueryResponse[]>>(`users`, {
+      baseURL: import.meta.env.VITE_API_URL,
+      method: "GET",
+      credentials: "include",
+    });
+    allUserData.value = response.data as UserQueryResponse[];
+    userInfoHandler(response.userInfo);
+  } catch (error) {
+    console.log(error);
+    errorHandler(error);
+  }
+};
 
 const handleSubmit = async () => {
   try {
+    console.log(form);
     const response = await $fetch<CommonResponse>(`users/${form.value.id}`, {
       baseURL: import.meta.env.VITE_API_URL,
       method: "PATCH",
@@ -53,7 +74,14 @@ const handleSubmit = async () => {
           身分:
           <span v-if="form.management">管理員</span>
           <span v-else>一般用戶</span>
-          <input type="button" class="button-management" value="變更使用者權限" />
+          <button
+            v-if="form.management"
+            data-target="modal1"
+            class="modal-trigger button-management"
+            @click="changeStatus()"
+          >
+            變更使用者權限
+          </button>
         </div>
         <div class="col s12 input-field">
           <i class="material-icons prefix">sports_esports</i>
@@ -80,6 +108,17 @@ const handleSubmit = async () => {
           </button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>使用者管理</h4>
+      <div v-for="user in allUserData" :key="user.id">{{ user.username }}/{{ user.management }}</div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
     </div>
   </div>
 </template>

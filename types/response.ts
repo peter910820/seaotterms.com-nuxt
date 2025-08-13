@@ -111,3 +111,12 @@ export interface GameRecordQueryResponse {
   updateTime: string;
   updateName: string;
 }
+
+export interface UserQueryResponse {
+  id: number;
+  username: string;
+  exp: number;
+  management: boolean;
+  updateAt: string;
+  updateName: string;
+}
