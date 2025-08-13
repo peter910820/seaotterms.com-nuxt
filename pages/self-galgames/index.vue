@@ -9,6 +9,11 @@ const selectedBrand = ref("");
 const selectedBrandGames = ref<GameRecordQueryResponse[]>([]);
 let total = ref(0);
 
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
+
+const userData = computed(() => user.value);
+
 const router = useRouter();
 
 const { data, error } = await useFetch<CommonResponse<BrandRecordQueryResponse[]>, CommonResponse>("galgame-brands", {
@@ -57,9 +62,19 @@ const formatDate = (date: string) => dayjs(date).format("YYYY-MM-DD");
     <div class="col s12 center-align galgameBrandTitle">
       <div class="col s12">
         Galgameブランド紀錄
-        <router-link to="/self-galgames/brands/create" class="button-simple">點我新增品牌</router-link>
+        <router-link
+          v-if="userData.username !== undefined && userData.management"
+          to="/self-galgames/brands/create"
+          class="button-simple"
+          >點我新增品牌</router-link
+        >
 
-        <router-link to="/self-galgames/games/create" class="button-simple">點我新增遊戲</router-link>
+        <router-link
+          v-if="userData.username !== undefined && userData.management"
+          to="/self-galgames/games/create"
+          class="button-simple"
+          >點我新增遊戲</router-link
+        >
       </div>
     </div>
     <div class="col s12 galgameBrandHeader">
