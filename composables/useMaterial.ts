@@ -54,3 +54,12 @@ export function initMaterialDropdown() {
     M.Dropdown.init(elems, selectOptions);
   });
 }
+
+export function initMaterialModal() {
+  nextTick(() => {
+    document.addEventListener("DOMContentLoaded", function () {
+      var elems = document.querySelectorAll(".modal");
+      var instances = M.Modal.init(elems, {});
+    });
+  });
+}
