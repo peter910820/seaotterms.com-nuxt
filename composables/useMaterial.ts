@@ -57,9 +57,7 @@ export function initMaterialDropdown() {
 
 export function initMaterialModal() {
   nextTick(() => {
-    document.addEventListener("DOMContentLoaded", function () {
-      var elems = document.querySelectorAll(".modal");
-      var instances = M.Modal.init(elems, {});
-    });
+    var elems = document.querySelectorAll(".modal");
+    M.Modal.init(elems, {});
   });
 }
