@@ -65,7 +65,7 @@ onMounted(() => {
       </router-link>
     </li>
     <li>
-      <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+      <button data-target="modal1" class="btn modal-trigger">Modal</button>
     </li>
   </ul>
   <!-- Main Navbar -->
