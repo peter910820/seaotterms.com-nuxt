@@ -108,34 +108,36 @@ const formatDate = (date: string) => dayjs(date).format("YYYY-MM-DD");
     </div>
 
     <!-- 全螢幕彈出視窗 -->
-    <div v-if="modalVisible" class="modal-overlay" @click="closeModal">
-      <div class="modal-content" @click.stop>
-        <h4>{{ selectedBrand }} 通關遊戲資料</h4>
-        <div class="col s12 galgameBrandHeader">
-          <div class="col s6 left-align">ゲーム</div>
-          <div class="col s2">発売日</div>
-          <div class="col s2">遊玩結束時間</div>
-          <div class="col s1">全年齡</div>
-          <div class="col s1">修改</div>
-        </div>
-        <div class="col s12 galgameBrand floatup-div" v-for="brandGames in selectedBrandGames" :key="brandGames.name">
-          <div class="col s6 left-align">{{ brandGames.name }}</div>
-          <div class="col s2">{{ formatDate(brandGames.releaseDate) }}</div>
-          <div class="col s2">{{ formatDate(brandGames.endDate) }}</div>
-          <div class="col s1" v-if="brandGames.allAges === false">
-            <b>
-              <font color="pink">18+</font>
-            </b>
+    <transition name="fade">
+      <div v-if="modalVisible" class="modal-overlay" @click="closeModal">
+        <div class="modal-content" @click.stop>
+          <h4>{{ selectedBrand }} 通關遊戲資料</h4>
+          <div class="col s12 galgameBrandHeader">
+            <div class="col s6 left-align">ゲーム</div>
+            <div class="col s2">発売日</div>
+            <div class="col s2">遊玩結束時間</div>
+            <div class="col s1">全年齡</div>
+            <div class="col s1">修改</div>
           </div>
-          <div class="col s1" v-else><font color="purple">全年齡</font></div>
-          <div class="col s1">
-            <router-link :to="`/self-galgames/games/${brandGames.name}/edit`" class="button-simple modify"
-              >修改</router-link
-            >
+          <div class="col s12 galgameBrand floatup-div" v-for="brandGames in selectedBrandGames" :key="brandGames.name">
+            <div class="col s6 left-align">{{ brandGames.name }}</div>
+            <div class="col s2">{{ formatDate(brandGames.releaseDate) }}</div>
+            <div class="col s2">{{ formatDate(brandGames.endDate) }}</div>
+            <div class="col s1" v-if="brandGames.allAges === false">
+              <b>
+                <font color="pink">18+</font>
+              </b>
+            </div>
+            <div class="col s1" v-else><font color="purple">全年齡</font></div>
+            <div class="col s1">
+              <router-link :to="`/self-galgames/games/${brandGames.name}/edit`" class="button-simple modify"
+                >修改</router-link
+              >
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -225,5 +227,18 @@ a {
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   padding: 40px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
 }
 </style>

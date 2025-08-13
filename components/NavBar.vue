@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { initMaterialSidenav, initMaterialDropdown, initMaterialModal } from "@/composables/useMaterial";
+import { initMaterialSidenav, initMaterialDropdown } from "@/composables/useMaterial";
 
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
@@ -7,7 +7,6 @@ const { user } = storeToRefs(userStore);
 const userData = computed(() => user.value);
 
 onMounted(() => {
-  initMaterialModal();
   initMaterialSidenav();
   initMaterialDropdown();
 });
@@ -63,9 +62,6 @@ onMounted(() => {
         使用者帳號維護
         <i class="material-icons left">manage_accounts</i>
       </router-link>
-    </li>
-    <li>
-      <button data-target="modal1" class="btn modal-trigger">Modal</button>
     </li>
   </ul>
   <!-- Main Navbar -->
@@ -162,17 +158,6 @@ onMounted(() => {
       <router-link v-else to="/login">登出</router-link>
     </li>
   </ul>
-
-  <!-- Modal Structure -->
-  <div id="modal1" class="modal modal-fixed-footer">
-    <div class="modal-content">
-      <h4>Modal Header</h4>
-      <p>A bunch of text</p>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-    </div>
-  </div>
 </template>
 
 <style lang="scss" scoped>
