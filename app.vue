@@ -78,6 +78,10 @@ body {
   font-family: "Cubic_11_1.100_R";
 }
 
+.floatup-div {
+  cursor: default;
+}
+
 /* hide materializecss select in mobile */
 .mobile-hidden {
   display: block !important;

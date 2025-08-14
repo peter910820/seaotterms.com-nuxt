@@ -48,7 +48,6 @@ const changeStatus = async () => {
 
 const handleSubmit = async () => {
   try {
-    console.log(form);
     const response = await $fetch<CommonResponse>(`users/${form.value.id}`, {
       baseURL: import.meta.env.VITE_API_URL,
       method: "PATCH",
@@ -60,6 +59,29 @@ const handleSubmit = async () => {
     router.push("/message");
   } catch (error) {
     errorHandler(error);
+  }
+};
+
+const changeManagementStatus = async (usrId: number) => {
+  if (confirm("確定修改權限?")) {
+    const user = allUserData.value.find((item) => item.id === usrId);
+    if (user) {
+      try {
+        user.management = !user.management;
+        const response = await $fetch<CommonResponse<UserQueryResponse[]>>(`users/${usrId}`, {
+          baseURL: import.meta.env.VITE_API_URL,
+          method: "PATCH",
+          body: user,
+          credentials: "include",
+        });
+        allUserData.value = response.data as UserQueryResponse[];
+        userInfoHandler(response.userInfo);
+      } catch (error) {
+        errorHandler(error);
+      }
+    } else {
+      errorHandler(null);
+    }
   }
 };
 </script>
@@ -115,10 +137,20 @@ const handleSubmit = async () => {
   <div id="modal1" class="modal modal-fixed-footer">
     <div class="modal-content">
       <h4>使用者管理</h4>
-      <div v-for="user in allUserData" :key="user.id">{{ user.username }}/{{ user.management }}</div>
+      <div class="col s12 user-header">
+        <div class="col s6">使用者名稱</div>
+        <div class="col s6">權限</div>
+      </div>
+      <div class="col s12 user-conent floatup-div" v-for="user in allUserData" :key="user.id">
+        <div class="col s6">{{ user.username }}</div>
+        <div class="col s6">
+          <button class="button-simple" v-if="user.management" @click="changeManagementStatus(user.id)">管理員</button>
+          <button class="button-simple" v-else @click="changeManagementStatus(user.id)">使用者</button>
+        </div>
+      </div>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+      <button class="modal-close waves-effect waves-green btn-flat">關閉</button>
     </div>
   </div>
 </template>
@@ -137,6 +169,51 @@ const handleSubmit = async () => {
     overflow: hidden;
   }
 }
+
+.modal-content {
+  padding: 30px;
+  > div {
+    margin-top: 10px;
+    padding: 10px;
+  }
+}
+
+.modal,
+.modal-footer {
+  text-align: center;
+  background-color: var(--color-background);
+}
+
+.modal-close {
+  width: 100%;
+}
+
+.user-header {
+  text-align: center;
+  font-size: x-large;
+  font-weight: bold;
+  max-height: 80px;
+  height: 80px;
+}
+.user-conent {
+  text-align: center;
+  max-height: 100%;
+  border: 2px solid var(--color-border);
+  border-radius: 20px;
+  > div {
+    font-size: x-large;
+    margin-left: 5px;
+    padding: 0px;
+    max-height: 100%;
+    > button {
+      padding: 0px !important;
+      height: 30px;
+      max-height: 30px;
+      font-size: 20px;
+    }
+  }
+}
+
 .headShot {
   max-height: 200px;
   max-width: 200px;

@@ -164,7 +164,6 @@ const formatDate = (date: string) => dayjs(date).format("YYYY-MM-DD");
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  cursor: default;
 }
 .galgameBrandTitle {
   text-align: center;
