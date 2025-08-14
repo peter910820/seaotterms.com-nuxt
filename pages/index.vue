@@ -71,7 +71,7 @@ onMounted(() => {
         {{ article.updatedAt }}
       </div>
       <div class="tag">
-        <div class="button-tags" v-for="tag in article.tags" :key="tag.name" @click="tagClick(tag.name, $event)">
+        <div class="button-paper" v-for="tag in article.tags" :key="tag.name" @click="tagClick(tag.name, $event)">
           {{ tag.name }}
         </div>
       </div>
@@ -89,7 +89,6 @@ onMounted(() => {
 .sub-block {
   max-height: 180px;
   height: 180px;
-  cursor: pointer;
 }
 
 .banner {
