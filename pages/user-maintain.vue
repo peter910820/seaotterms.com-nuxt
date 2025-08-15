@@ -62,16 +62,17 @@ const handleSubmit = async () => {
   }
 };
 
-const changeManagementStatus = async (usrId: number) => {
+const changeManagementStatus = async (userId: number) => {
   if (confirm("確定修改權限?")) {
-    const myUser = allUserData.value.find((item) => item.id === usrId);
+    const myUser = allUserData.value.find((item) => item.id === userId);
     if (myUser) {
       try {
         myUser.management = !myUser.management;
-        const response = await $fetch<CommonResponse<UserQueryResponse[]>>(`users/${usrId}`, {
+        myUser.updateName = user.value.update_name;
+        const response = await $fetch<CommonResponse<UserQueryResponse[]>>(`users/${userId}`, {
           baseURL: import.meta.env.VITE_API_URL,
           method: "PATCH",
-          body: user,
+          body: myUser,
           credentials: "include",
         });
         allUserData.value = (response.data as UserQueryResponse[]).filter(
@@ -149,8 +150,22 @@ const changeManagementStatus = async (usrId: number) => {
       <div class="col s12 user-conent floatup-div" v-for="user in allUserData" :key="user.id">
         <div class="col s6">{{ user.username }}</div>
         <div class="col s6">
-          <button class="button-simple" v-if="user.management" @click="changeManagementStatus(user.id)">管理員</button>
-          <button class="button-simple" v-else @click="changeManagementStatus(user.id)">使用者</button>
+          <button
+            class="button-simple"
+            v-if="user.management"
+            @click="changeManagementStatus(user.id)"
+            :disabled="user.username === 'root'"
+          >
+            管理員
+          </button>
+          <button
+            class="button-simple"
+            v-else
+            @click="changeManagementStatus(user.id)"
+            :disabled="user.username === 'root'"
+          >
+            使用者
+          </button>
         </div>
       </div>
     </div>
