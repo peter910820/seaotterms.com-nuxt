@@ -2,7 +2,6 @@
 import { ref, onMounted, computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/stores/useUserStore";
-import headshot from "@/assets/image/headshot.png";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const Typed: any;
 
@@ -28,7 +27,7 @@ onMounted(() => {
     <div class="h4">
       <div class="headShot">
         <img v-if="userData.avatar !== '' && userData.avatar !== undefined" :src="userData.avatar" />
-        <img v-else :src="headshot" />
+        <img v-else src="/headshot.png" />
       </div>
     </div>
     <div v-if="userData.username !== '' && userData.username !== undefined" class="myName">
