@@ -38,7 +38,7 @@ const changeStatus = async () => {
       method: "GET",
       credentials: "include",
     });
-    allUserData.value = response.data as UserQueryResponse[];
+    allUserData.value = (response.data as UserQueryResponse[]).filter((val) => val.username !== user.value.username);
     userInfoHandler(response.userInfo);
   } catch (error) {
     console.log(error);
@@ -64,17 +64,19 @@ const handleSubmit = async () => {
 
 const changeManagementStatus = async (usrId: number) => {
   if (confirm("確定修改權限?")) {
-    const user = allUserData.value.find((item) => item.id === usrId);
-    if (user) {
+    const myUser = allUserData.value.find((item) => item.id === usrId);
+    if (myUser) {
       try {
-        user.management = !user.management;
+        myUser.management = !myUser.management;
         const response = await $fetch<CommonResponse<UserQueryResponse[]>>(`users/${usrId}`, {
           baseURL: import.meta.env.VITE_API_URL,
           method: "PATCH",
           body: user,
           credentials: "include",
         });
-        allUserData.value = response.data as UserQueryResponse[];
+        allUserData.value = (response.data as UserQueryResponse[]).filter(
+          (val) => val.username !== user.value.username,
+        );
         userInfoHandler(response.userInfo);
       } catch (error) {
         errorHandler(error);
@@ -147,22 +149,8 @@ const changeManagementStatus = async (usrId: number) => {
       <div class="col s12 user-conent floatup-div" v-for="user in allUserData" :key="user.id">
         <div class="col s6">{{ user.username }}</div>
         <div class="col s6">
-          <button
-            class="button-simple"
-            v-if="user.management"
-            @click="changeManagementStatus(user.id)"
-            :disabled="user.username === 'root'"
-          >
-            管理員
-          </button>
-          <button
-            class="button-simple"
-            v-else
-            @click="changeManagementStatus(user.id)"
-            :disabled="user.username === 'root'"
-          >
-            使用者
-          </button>
+          <button class="button-simple" v-if="user.management" @click="changeManagementStatus(user.id)">管理員</button>
+          <button class="button-simple" v-else @click="changeManagementStatus(user.id)">使用者</button>
         </div>
       </div>
     </div>
