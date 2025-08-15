@@ -91,7 +91,10 @@ const changeManagementStatus = async (usrId: number) => {
     <h1>使用者帳號維護</h1>
     <div class="col s12 sub-block floatup-div wow animate__flipInX">
       <div class="row">
-        <div class="col s6 title">使用者名稱: {{ form.username }}</div>
+        <div class="col s6 title">
+          使用者名稱:
+          <span>{{ form.username }}</span>
+        </div>
         <div class="col s6 title">
           身分:
           <span v-if="form.management">管理員</span>
@@ -117,13 +120,13 @@ const changeManagementStatus = async (usrId: number) => {
           <span class="helper-text" data-error="此欄不能為空" data-success=""></span>
           <label for="avatar" :class="[form.avatar.length > 0 ? 'active' : '']">個人圖片URL</label>
         </div>
-        <div class="col s12">
+        <div class="col s12 center">
           <span>圖片預覽:</span>
           <div class="headShot">
             <img :src="form.avatar" />
           </div>
         </div>
-        <div class="col s12">
+        <div class="col s12 center">
           <button class="button-submit" type="button" @click="handleSubmit">
             確定修改
             <i class="material-icons right">send</i>
@@ -144,8 +147,22 @@ const changeManagementStatus = async (usrId: number) => {
       <div class="col s12 user-conent floatup-div" v-for="user in allUserData" :key="user.id">
         <div class="col s6">{{ user.username }}</div>
         <div class="col s6">
-          <button class="button-simple" v-if="user.management" @click="changeManagementStatus(user.id)">管理員</button>
-          <button class="button-simple" v-else @click="changeManagementStatus(user.id)">使用者</button>
+          <button
+            class="button-simple"
+            v-if="user.management"
+            @click="changeManagementStatus(user.id)"
+            :disabled="user.username === 'root'"
+          >
+            管理員
+          </button>
+          <button
+            class="button-simple"
+            v-else
+            @click="changeManagementStatus(user.id)"
+            :disabled="user.username === 'root'"
+          >
+            使用者
+          </button>
         </div>
       </div>
     </div>
@@ -159,7 +176,7 @@ const changeManagementStatus = async (usrId: number) => {
 .sub-block {
   min-height: 550px;
   height: auto;
-  > div {
+  div {
     margin-top: 20px;
   }
   > .title {
@@ -215,6 +232,7 @@ const changeManagementStatus = async (usrId: number) => {
 }
 
 .headShot {
+  margin: 0 auto; // 萬能置中！
   max-height: 200px;
   max-width: 200px;
   overflow: hidden;
@@ -226,8 +244,10 @@ const changeManagementStatus = async (usrId: number) => {
   > img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
   }
 }
+
 span {
   font-size: 30px;
   white-space: nowrap;

@@ -36,13 +36,11 @@
 }
 .error-code {
   font-size: 100px;
-  font-family: "Century-Gothic";
   color: red;
 }
 .error-hint {
   font-size: 50px;
   margin-bottom: 20px;
-  font-family: "Century-Gothic";
   color: red;
 }
 .go-home-button {

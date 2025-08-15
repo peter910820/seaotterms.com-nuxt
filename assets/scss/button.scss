@@ -257,6 +257,12 @@
   transform: translateY(2px);
 }
 
+.button-simple:disabled {
+  background-color: #ccc;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 /* button-tags */
 .button-tags {
   background: transparent;
