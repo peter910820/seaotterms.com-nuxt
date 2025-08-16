@@ -29,15 +29,7 @@ const handleSubmit = async () => {
     messageStorage(response.statusCode, response.infoMsg);
     router.push("/message");
   } catch (error) {
-    if (error instanceof FetchError) {
-      const fetchError = error as FetchError<CommonResponse>;
-      userInfoHandler(fetchError.data?.userInfo);
-      messageStorage(fetchError.status, fetchError.data?.errMsg);
-      router.push("/message");
-    } else {
-      messageStorage();
-      router.push("/message");
-    }
+    errorHandler(error);
   }
 };
 </script>
