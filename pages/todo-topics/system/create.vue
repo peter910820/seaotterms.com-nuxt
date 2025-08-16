@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   ssr: false,
-  middleware: "require-auth",
+  middleware: "require-management",
 });
 
 import { ref } from "vue";
@@ -19,7 +19,7 @@ const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
 const form = ref<TodoTopicCreateRequest>({
   topicName: "",
-  topicOwner: user.value.username,
+  topicOwner: "system",
   updatedAt: new Date(),
   updateName: user.value.username,
 });
@@ -48,7 +48,7 @@ const handleSubmit = async () => {
 
 <template>
   <div class="row main-block">
-    <h1>建立Todo主題</h1>
+    <h1>建立系統站台</h1>
     <div class="col s12 sub-block wow animate__flipInX">
       <div class="row">
         <div class="input-field col s12">
@@ -59,7 +59,7 @@ const handleSubmit = async () => {
         </div>
         <div class="col s12">
           <button @click="handleSubmit()" class="button-submit" type="button">
-            建立主題
+            建立系統站台
             <i class="material-icons right">send</i>
           </button>
         </div>

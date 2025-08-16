@@ -52,7 +52,7 @@ onMounted(() => {
       </router-link>
     </li>
     <li>
-      <router-link to="/system-todo-topics/create">
+      <router-link to="/todo-topics/system/create">
         建立系統站台
         <i class="material-icons left">system_update_alt</i>
       </router-link>
