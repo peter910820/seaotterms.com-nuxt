@@ -28,6 +28,19 @@ const form = ref<GameRecordCreateRequest>({
   releaseDate: "",
   allAges: false,
   endDate: "",
+  opDisplayScore: null,
+  opSongScore: null,
+  opCompatibilityScore: null,
+  edSongScore: null,
+  musicScore: null,
+  plotScore: 0,
+  artScore: 0,
+  systemScore: 0,
+  themeScore: 0,
+  conclusionScore: 0,
+  category: "",
+  recommended: 0,
+  experience: "",
 });
 
 onMounted(() => {
@@ -93,25 +106,99 @@ const handleSubmit = async () => {
           </select>
           <label>ブランド</label>
         </div>
-        <div class="input-field col s6">
+        <div class="input-field col s4">
           <i class="material-icons prefix">event</i>
           <input id="releaseDate" type="text" class="datepicker validate" required />
           <span class="helper-text" data-error="此欄不能為空" data-success=""></span>
           <label for="releaseDate">発売日</label>
         </div>
-        <div class="input-field col s6">
+        <div class="input-field col s4">
           <i class="material-icons prefix">check_circle</i>
           <input id="endDate" type="text" class="datepicker validate" required />
           <span class="helper-text" data-error="此欄不能為空" data-success=""></span>
           <label for="endDate">遊玩結束時間</label>
         </div>
-        <div class="input-field col s6">
-          <p>
-            <label>
-              <input type="checkbox" class="filled-in" v-model="form.allAges" />
-              <span>全年齡</span>
-            </label>
-          </p>
+        <div class="input-field col s4">
+          <label>
+            <input type="checkbox" class="filled-in" v-model="form.allAges" />
+            <span>全年齡</span>
+          </label>
+        </div>
+        <!-- 分數填入 -->
+        <div class="col s12 center">分數填入</div>
+        <div class="input-field col s3">
+          <i class="material-icons prefix">sports_esports</i>
+          <input v-model="form.opSongScore" id="gameName" type="number" class="validate" />
+          <label for="gameName">OP歌曲</label>
+        </div>
+        <div class="input-field col s3">
+          <i class="material-icons prefix">sports_esports</i>
+          <input v-model="form.opDisplayScore" id="gameName" type="number" class="validate" />
+          <label for="gameName">OP畫面</label>
+        </div>
+        <div class="input-field col s3">
+          <i class="material-icons prefix">sports_esports</i>
+          <input v-model="form.opCompatibilityScore" id="gameName" type="number" class="validate" />
+          <label for="gameName">OP畫面與歌曲契合度</label>
+        </div>
+        <div class="input-field col s3">
+          <i class="material-icons prefix">sports_esports</i>
+          <input v-model="form.edSongScore" id="gameName" type="number" class="validate" />
+          <label for="gameName">ED</label>
+        </div>
+        <div class="input-field col s3">
+          <i class="material-icons prefix">sports_esports</i>
+          <input v-model="form.musicScore" id="gameName" type="number" class="validate" />
+          <label for="gameName">音樂(以前玩過的會沒有資料)</label>
+        </div>
+        <div class="input-field col s3">
+          <i class="material-icons prefix">sports_esports</i>
+          <input v-model="form.plotScore" id="gameName" type="number" class="validate" required />
+          <span class="helper-text" data-error="此欄不能為空" data-success=""></span>
+          <label for="gameName">劇情</label>
+        </div>
+        <div class="input-field col s3">
+          <i class="material-icons prefix">sports_esports</i>
+          <input v-model="form.artScore" id="gameName" type="number" class="validate" required />
+          <span class="helper-text" data-error="此欄不能為空" data-success=""></span>
+          <label for="gameName">美術</label>
+        </div>
+        <div class="input-field col s3">
+          <i class="material-icons prefix">sports_esports</i>
+          <input v-model="form.systemScore" id="gameName" type="number" class="validate" required />
+          <span class="helper-text" data-error="此欄不能為空" data-success=""></span>
+          <label for="gameName">系統</label>
+        </div>
+        <div class="input-field col s3">
+          <i class="material-icons prefix">sports_esports</i>
+          <input v-model="form.themeScore" id="gameName" type="number" class="validate" required />
+          <span class="helper-text" data-error="此欄不能為空" data-success=""></span>
+          <label for="gameName">題材</label>
+        </div>
+        <div class="input-field col s3">
+          <i class="material-icons prefix">sports_esports</i>
+          <input v-model="form.conclusionScore" id="gameName" type="number" class="validate" required />
+          <span class="helper-text" data-error="此欄不能為空" data-success=""></span>
+          <label for="gameName">收尾</label>
+        </div>
+        <div class="input-field col s3">
+          <select v-model="form.category">
+            <option class="validate" value="" disabled selected>選擇遊戲類型</option>
+            <option class="validate" value="一般系">一般系</option>
+            <option class="validate" value="泣系">泣系</option>
+            <option class="validate" value="制鬱系">制鬱系</option>
+            <option class="validate" value="拔作系">拔作系</option>
+            <option class="validate" value="哲學系">哲學系</option>
+          </select>
+        </div>
+        <div class="input-field col s3">
+          <select v-model="form.recommended">
+            <option class="validate" value="" disabled selected>選擇個人推薦程度</option>
+            <option class="validate" value="大推">大推</option>
+            <option class="validate" value="推">推</option>
+            <option class="validate" value="普">普</option>
+            <option class="validate" value="不推">不推</option>
+          </select>
         </div>
         <div class="input-field col s6">
           <select v-model="form.brand" class="browser-default mobile-display">

@@ -86,6 +86,20 @@ export interface GameRecordCreateRequest {
   releaseDate: string;
   allAges: boolean;
   endDate: string;
+
+  opDisplayScore: number | null; // OP畫面分數，可能沒有值
+  opSongScore: number | null; // OP歌曲分數，可能沒有值
+  opCompatibilityScore: number | null; // OP畫面契合度分數，可能沒有值
+  edSongScore: number | null; // ED歌曲分數，可能沒有值
+  musicScore: number | null; // 音樂分數，可能沒有值(早期遊戲沒有紀錄)
+  plotScore: number; // 劇情分數
+  artScore: number; // 美術分數
+  systemScore: number; // 系統分數
+  themeScore: number; // 題材分數
+  conclusionScore: number; // 收尾分數
+  category: string; // 遊戲類型
+  recommended: number; // 私心推薦程度 1到4分別對應不推、普、推、大推(0為未設定)
+  experience: string;
 }
 
 export interface GameRecordUpdateRequest {
