@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { FetchError } from "ofetch";
 import { userInfoHandler } from "@/utils/userInfoHandler";
 import { messageStorage } from "@/utils/messageHandler";
 
@@ -15,6 +14,7 @@ const router = useRouter();
 const todoTopicStore = useTodoTopicStore();
 const systemTodoStore = useSystemTodoStore();
 const filterValue = ref<string>("");
+const filterStatus = ref<string>("");
 
 const { data, error } = await useFetch<CommonResponse<TodoTopicQueryResponse[]>, CommonResponse>(`todo-topics/system`, {
   baseURL: import.meta.env.VITE_API_URL,
@@ -26,7 +26,7 @@ todoTopicStore.set(todoTopics.value);
 const startFilter = async () => {
   try {
     const response = await $fetch<CommonResponse<SystemTodoQueryResponse[]>>(
-      `system-todos?system_name=${filterValue.value}`,
+      `system-todos?system_name=${filterValue.value}&status=${filterStatus.value}`,
       {
         baseURL: import.meta.env.VITE_API_URL,
         method: "GET",
@@ -36,15 +36,7 @@ const startFilter = async () => {
     userInfoHandler(response.userInfo);
     systemTodoStore.set(response.data);
   } catch (error) {
-    if (error instanceof FetchError) {
-      const fetchError = error as FetchError<CommonResponse>;
-      userInfoHandler(fetchError.data?.userInfo);
-      messageStorage(fetchError.status, fetchError.data?.errMsg);
-      router.push("/message");
-    } else {
-      messageStorage();
-      router.push("/message");
-    }
+    errorHandler(error);
   }
 };
 
@@ -70,14 +62,14 @@ onMounted(() => {
   <div class="col s12 sub-block floatup-div">
     <div class="row">
       <div class="col s2">篩選器</div>
-      <div class="col s4">
+      <div class="col s2">
         <div class="input-field">
           <i class="material-icons prefix">text_fields</i>
           <input id="filterText" type="text" class="validate" />
           <label for="filterText">篩選文字</label>
         </div>
       </div>
-      <div class="col s4">
+      <div class="col s3">
         <div class="input-field">
           <i class="material-icons prefix">apartment</i>
           <select v-model="filterValue">
@@ -91,6 +83,19 @@ onMounted(() => {
             </option>
           </select>
           <label>站點篩選</label>
+        </div>
+      </div>
+      <div class="col s3">
+        <div class="input-field">
+          <i class="material-icons prefix">signal_cellular_alt</i>
+          <select v-model="filterStatus">
+            <option class="validate" value="" disabled selected>選擇狀態</option>
+            <option value="0">未開始</option>
+            <option value="1">進行中</option>
+            <option value="2">擱置中</option>
+            <option value="3">已完成</option>
+          </select>
+          <label>狀態篩選</label>
         </div>
       </div>
       <div class="col s2">
