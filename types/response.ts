@@ -120,3 +120,36 @@ export interface UserQueryResponse {
   updateAt: string;
   updateName: string;
 }
+
+// kurohelper-api common response(200)
+export interface KuroHelperAPIOK<T = null> {
+  message: string;
+  data: T;
+}
+
+interface BrandErogs {
+  id: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface GameErogs {
+  id: number;
+  brandErogsId: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  brandErogs: BrandErogs;
+}
+
+export interface UserGameErogs {
+  userId: string;
+  gameErogsId: number;
+  hasPlayed: boolean;
+  inWish: boolean;
+  completedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+  gameErogs: GameErogs;
+}
