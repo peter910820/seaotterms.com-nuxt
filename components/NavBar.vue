@@ -31,6 +31,10 @@ onMounted(() => {
   <!-- Galgame Dropdown Structure -->
   <ul id="galgame-dropdown" class="dropdown-content">
     <li>
+      <router-link to="/self-galgames/new">
+        新Galgame紀錄
+        <i class="material-icons left">casino</i>
+      </router-link>
       <router-link to="/self-galgames">
         Galgame紀錄
         <i class="material-icons left">casino</i>
@@ -129,6 +133,9 @@ onMounted(() => {
     </li>
     <li>
       <router-link to="/system-todos">系統更新待辦</router-link>
+    </li>
+    <li>
+      <router-link to="/self-galgames/new">新Galgame紀錄</router-link>
     </li>
     <li>
       <router-link to="/self-galgames">Galgame紀錄</router-link>
