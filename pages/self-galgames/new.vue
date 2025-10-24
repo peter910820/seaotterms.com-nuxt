@@ -63,22 +63,7 @@ const formatDate = (date: string) => dayjs(date).format("YYYY-MM-DD");
 <template>
   <div class="row main-block">
     <div class="col s12 center-align galgameBrandTitle">
-      <div class="col s12">
-        Galgameブランド紀錄
-        <router-link
-          v-if="userData.username !== undefined && userData.management"
-          to="/self-galgames/brands/create"
-          class="button-simple"
-          >點我新增品牌</router-link
-        >
-
-        <router-link
-          v-if="userData.username !== undefined && userData.management"
-          to="/self-galgames/games/create"
-          class="button-simple"
-          >點我新增遊戲</router-link
-        >
-      </div>
+      <div class="col s12">Galgameブランド紀錄</div>
     </div>
     <div class="col s12 galgameBrandHeader">
       <div class="col s5">ゲーム</div>
