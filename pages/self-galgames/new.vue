@@ -81,32 +81,32 @@ const formatDate = (date: string) => dayjs(date).format("YYYY-MM-DD");
       </div>
     </div>
     <div class="col s12 galgameBrandHeader">
-      <div class="col s3">ゲーム</div>
+      <div class="col s5">ゲーム</div>
       <div class="col s3">ブランド</div>
-      <div class="col s3">遊玩結束時間</div>
-      <div class="col s3">批評空間網址</div>
+      <div class="col s2">遊玩結束時間</div>
+      <div class="col s2">批評空間網址</div>
     </div>
     <div class="col s12 galgameBrandHeader">
-      <div class="col s3"></div>
+      <div class="col s5"></div>
       <div class="col s3">攻略總數: {{ total }}</div>
-      <div class="col s3"></div>
-      <div class="col s3"></div>
+      <div class="col s2"></div>
+      <div class="col s2"></div>
     </div>
     <div
       class="col s12 galgameBrand floatup-div wow animate__slideInUp"
       v-for="game in sortedFlattenedRecordList"
       :key="game.userId"
     >
-      <div class="col s3 game">{{ game.gameName }}</div>
+      <div class="col s5 game">{{ game.gameName }}</div>
       <div class="col s3">{{ game.brandName }}</div>
-      <div class="col s3">
+      <div class="col s2">
         {{
           game.completedAt === null || game.completedAt === undefined
             ? formatDate(game.createdAt)
             : formatDate(game.completedAt)
         }}
       </div>
-      <div class="col s3">
+      <div class="col s2">
         <a :href="`https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/game.php?game=${game.gameErogsId}`">{{
           game.gameErogsId
         }}</a>
