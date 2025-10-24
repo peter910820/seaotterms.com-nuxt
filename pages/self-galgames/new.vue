@@ -31,7 +31,7 @@ const { data, error } = await useFetch<KuroHelperAPIOK<UserGameErogs[]>, CommonR
     baseURL: import.meta.env.VITE_KUROHELPER_API_URL,
     credentials: "include",
     headers: {
-      Authorization: `Bearer ${import.meta.env.VITE_KUROHELPER_API_URL}`,
+      Authorization: `Bearer ${import.meta.env.VITE_KUROHELPER_API_TOKEN}`,
     },
   },
 );
