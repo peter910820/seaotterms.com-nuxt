@@ -50,12 +50,14 @@ total.value = data.value?.data ? data.value?.data.length : 0;
 
 const flattenedRecordList: UserGameErogsFlat[] = data.value?.data ? data.value.data.map(flattenUserGameErogs) : [];
 
-const sortedFlattenedRecordList = flattenedRecordList.sort((a, b) => {
+let sortedFlattenedRecordList = flattenedRecordList.sort((a, b) => {
   const aTime = a.completedAt ? new Date(a.completedAt).getTime() : new Date(a.createdAt).getTime();
   const bTime = b.completedAt ? new Date(b.completedAt).getTime() : new Date(b.createdAt).getTime();
 
   return bTime - aTime; // DESC 排序
 });
+
+sortedFlattenedRecordList = sortedFlattenedRecordList.filter((item) => item.hasPlayed);
 
 const formatDate = (date: string) => dayjs(date).format("YYYY-MM-DD");
 </script>
