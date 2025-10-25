@@ -3,13 +3,7 @@ import { ref } from "vue";
 import dayjs from "dayjs";
 import { flattenUserGameErogs } from "@/utils/utils";
 
-import type {
-  BrandRecordQueryResponse,
-  CommonResponse,
-  GameRecordQueryResponse,
-  KuroHelperAPIOK,
-  UserGameErogs,
-} from "@/types/response";
+import type { CommonResponse, GameRecordQueryResponse, KuroHelperAPIOK, UserGameErogs } from "@/types/response";
 
 import type { UserGameErogsFlat } from "@/types/common";
 
@@ -46,8 +40,6 @@ if (import.meta.client && error.value) {
   }
 }
 
-total.value = data.value?.data ? data.value?.data.length : 0;
-
 const flattenedRecordList: UserGameErogsFlat[] = data.value?.data ? data.value.data.map(flattenUserGameErogs) : [];
 
 let sortedFlattenedRecordList = flattenedRecordList.sort((a, b) => {
@@ -58,6 +50,8 @@ let sortedFlattenedRecordList = flattenedRecordList.sort((a, b) => {
 });
 
 sortedFlattenedRecordList = sortedFlattenedRecordList.filter((item) => item.hasPlayed);
+
+total.value = sortedFlattenedRecordList.length;
 
 const formatDate = (date: string) => dayjs(date).format("YYYY-MM-DD");
 </script>
